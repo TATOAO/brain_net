@@ -89,25 +89,25 @@ class HealthService(LoggerMixin):
             # Basic connectivity check
             async with self.db_manager.postgres_engine.begin() as conn:
                 result = await conn.execute(text("SELECT 1"))
-                await result.fetchone()
+                result.fetchone()
             
             # Get database info
             async with self.db_manager.postgres_engine.begin() as conn:
                 # Get version
                 version_result = await conn.execute(text("SELECT version()"))
-                version = (await version_result.fetchone())[0]
+                version = version_result.fetchone()[0]
                 
                 # Get database size
                 size_result = await conn.execute(text(
                     "SELECT pg_size_pretty(pg_database_size(current_database()))"
                 ))
-                db_size = (await size_result.fetchone())[0]
+                db_size = size_result.fetchone()[0]
                 
                 # Get connection count
                 conn_result = await conn.execute(text(
                     "SELECT count(*) FROM pg_stat_activity WHERE state = 'active'"
                 ))
-                active_connections = (await conn_result.fetchone())[0]
+                active_connections = conn_result.fetchone()[0]
             
             response_time = round((time.time() - start_time) * 1000, 2)
             
