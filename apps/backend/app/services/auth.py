@@ -12,8 +12,10 @@ from fastapi import HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.core.config import settings
-from app.models.user import User
 from app.schemas.auth import TokenData
+
+# Import from shared schemas
+from apps.shared.models import User
 
 
 # Password hashing

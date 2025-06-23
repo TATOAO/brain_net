@@ -16,7 +16,10 @@ from app.core.logging import setup_logging
 from app.api.v1.router import api_router
 from app.services.health import HealthService
 from app.core.database import DatabaseManager
-from app.models.user import Base
+
+# Import SQLModel for table creation
+from apps.shared.models import User  # Import to register the model
+from sqlmodel import SQLModel
 
 # Setup logging
 setup_logging()
@@ -32,9 +35,9 @@ async def lifespan(app: FastAPI):
     db_manager = DatabaseManager()
     await db_manager.initialize()
     
-    # Create database tables
+    # Create database tables using SQLModel
     async with db_manager.postgres_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+        await conn.run_sync(SQLModel.metadata.create_all)
     
     # Store in app state for access in routes
     app.state.db_manager = db_manager

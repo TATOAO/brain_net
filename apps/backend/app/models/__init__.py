@@ -1,7 +1,7 @@
 """
 Database models for Brain_Net Backend
+Now using shared SQLModel schemas from apps/shared/models
 """
 
-from .user import User
-
-__all__ = ["User"] 
+# All models are now in apps/shared/models
+# This file is kept for backwards compatibility 

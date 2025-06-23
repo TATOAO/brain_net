@@ -21,13 +21,17 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir uv
 
 # Copy requirements first for better caching
-COPY requirements.txt .
+COPY apps/backend/requirements.txt .
 
 # Install Python dependencies using uv (much faster than pip)
 RUN uv pip install --system --no-cache -r requirements.txt
 
+# Copy shared models and apps package structure
+COPY apps/__init__.py /app/apps/__init__.py
+COPY apps/shared /app/apps/shared
+
 # Copy application code
-COPY . .
+COPY apps/backend/ .
 
 # Create logs directory
 RUN mkdir -p logs

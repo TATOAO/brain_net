@@ -6,6 +6,7 @@ python-multipart==0.0.6
 # Database Drivers
 asyncpg==0.29.0
 sqlalchemy[asyncio]==2.0.23
+sqlmodel==0.0.24
 elasticsearch[async]==8.11.0
 neo4j==5.15.0
 redis[hiredis]==5.0.1
@@ -14,9 +15,8 @@ redis[hiredis]==5.0.1
 minio==7.2.0
 
 # Environment and Configuration
-pydantic==2.5.0
+pydantic[email]==2.5.0
 pydantic-settings==2.1.0
-email-validator==2.1.0
 python-dotenv==1.0.0
 
 # Authentication and Security

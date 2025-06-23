@@ -10,9 +10,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
 from app.core.database import DatabaseManager
 from app.schemas.auth import UserLogin, Token, RefreshToken
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import UserResponse, UserCreate
 from app.services.auth import AuthService, get_current_user_dependency, security
-from app.models.user import User
 
 router = APIRouter()
 

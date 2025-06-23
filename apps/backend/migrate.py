@@ -9,7 +9,10 @@ import logging
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from app.core.config import settings
-from app.models.user import Base
+
+# Import SQLModel for migrations
+from apps.shared.models import User  # Import to register the model
+from sqlmodel import SQLModel
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -26,9 +29,9 @@ async def run_migrations():
             echo=True
         )
         
-        # Create all tables
+        # Create all tables using SQLModel
         async with engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
+            await conn.run_sync(SQLModel.metadata.create_all)
         
         logger.info("Database migrations completed successfully")
         

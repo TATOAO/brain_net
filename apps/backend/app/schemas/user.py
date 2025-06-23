@@ -1,24 +1,17 @@
 """
 User schemas for request/response validation
+Re-export shared SQLModel schemas with additional validation for API compatibility.
 """
 
-from pydantic import BaseModel, EmailStr, validator
-from typing import Optional
-from datetime import datetime
+from pydantic import validator
+from apps.shared.models import UserCreate as BaseUserCreate, UserRead, UserUpdate
+
+# Re-export the shared schemas
+UserResponse = UserRead
 
 
-class UserBase(BaseModel):
-    """Base user schema."""
-    email: EmailStr
-    username: str
-    full_name: Optional[str] = None
-    is_active: bool = True
-    is_superuser: bool = False
-
-
-class UserCreate(UserBase):
-    """Schema for user creation."""
-    password: str
+class UserCreate(BaseUserCreate):
+    """Enhanced user creation schema with additional validation."""
     confirm_password: str
     
     @validator('confirm_password')
@@ -33,28 +26,4 @@ class UserCreate(UserBase):
             raise ValueError('username must be alphanumeric (underscores and hyphens allowed)')
         if len(v) < 3:
             raise ValueError('username must be at least 3 characters long')
-        return v
-    
-    @validator('password')
-    def validate_password(cls, v):
-        if len(v) < 8:
-            raise ValueError('password must be at least 8 characters long')
-        return v
-
-
-class UserResponse(UserBase):
-    """Schema for user response."""
-    id: int
-    avatar_url: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    
-    class Config:
-        from_attributes = True
-
-
-class UserUpdate(BaseModel):
-    """Schema for user updates."""
-    email: Optional[EmailStr] = None
-    full_name: Optional[str] = None
-    avatar_url: Optional[str] = None 
+        return v 
