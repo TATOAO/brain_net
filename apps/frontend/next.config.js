@@ -6,8 +6,12 @@ const nextConfig = {
     
     return [
       {
+        source: '/api/backend/health/:path*',
+        destination: `${apiUrl}/health/:path*`
+      },
+      {
         source: '/api/backend/:path*',
-        destination: `${apiUrl}/:path*`
+        destination: `${apiUrl}/api/v1/:path*`
       }
     ]
   }

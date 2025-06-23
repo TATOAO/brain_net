@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useAuth } from '@/app/contexts/AuthContext'
+import Header from '@/app/components/Header'
 import { 
   Activity, 
   Database, 
@@ -12,7 +14,10 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
-  RefreshCw
+  RefreshCw,
+  Shield,
+  Users,
+  BarChart3
 } from 'lucide-react'
 
 interface HealthStatus {
@@ -49,6 +54,7 @@ const serviceNames = {
 }
 
 export default function Home() {
+  const { user, isLoggedIn, loading: authLoading } = useAuth()
   const [healthData, setHealthData] = useState<DetailedHealth | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -66,7 +72,7 @@ export default function Home() {
       const response = await axios.get(endpoint)
       setHealthData(response.data)
       setLastUpdated(new Date())
-    } catch (err) {
+    } catch (err: any) {
       setError('Failed to fetch health data')
       console.error('Error fetching health data:', err)
       console.error('Full error details:', {
@@ -151,8 +157,133 @@ export default function Home() {
     )
   }
 
+  // Show welcome page for non-authenticated users
+  if (!isLoggedIn && !authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        <Header />
+        <div className="container mx-auto px-4 py-16">
+          <div className="text-center mb-16">
+            <h1 className="text-5xl font-bold text-gray-900 mb-6">
+              Welcome to Brain Net
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              An intelligent and highly visualized RAG system for local knowledge base management. 
+              Organize, search, and interact with your documents using advanced AI capabilities.
+            </p>
+            <div className="flex justify-center space-x-4">
+              <a
+                href="/signup"
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Get Started
+              </a>
+              <a
+                href="/login"
+                className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold border border-blue-600 hover:bg-blue-50 transition-colors"
+              >
+                Sign In
+              </a>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                <Database className="h-6 w-6 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Smart Knowledge Management</h3>
+              <p className="text-gray-600">
+                Upload and organize your documents with intelligent categorization and semantic search capabilities.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                <Search className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Advanced Search</h3>
+              <p className="text-gray-600">
+                Find information quickly with AI-powered search that understands context and intent.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                <BarChart3 className="h-6 w-6 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Visual Analytics</h3>
+              <p className="text-gray-600">
+                Gain insights from your knowledge base with interactive visualizations and analytics.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            Brain Net Dashboard
+          </h1>
+          <p className="text-gray-600">
+            {isLoggedIn ? `Welcome back, ${user?.username || user?.email}!` : 'Monitor the health status of all Brain Net backend services'}
+          </p>
+        </div>
+        
+        {isLoggedIn && (
+          <div className="grid md:grid-cols-4 gap-6 mb-8">
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Database className="h-6 w-6 text-blue-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Documents</p>
+                  <p className="text-2xl font-bold text-gray-900">--</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Search className="h-6 w-6 text-green-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Queries</p>
+                  <p className="text-2xl font-bold text-gray-900">--</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <Users className="h-6 w-6 text-purple-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Active Users</p>
+                  <p className="text-2xl font-bold text-gray-900">1</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                  <Shield className="h-6 w-6 text-yellow-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">System Status</p>
+                  <p className="text-2xl font-bold text-gray-900">Online</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="space-y-6">
       {/* Overall Status */}
       {healthData && (
         <div className={`border rounded-lg p-6 ${getStatusColor(healthData.status)}`}>
@@ -243,6 +374,8 @@ export default function Home() {
       {/* Footer */}
       <div className="text-center text-gray-500 text-sm">
         <p>Health checks are automatically refreshed every 10 seconds</p>
+      </div>
+        </div>
       </div>
     </div>
   )

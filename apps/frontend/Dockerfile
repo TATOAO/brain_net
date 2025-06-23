@@ -18,8 +18,13 @@ COPY pnpm-lock.yaml* ./
 # Install dependencies
 RUN pnpm install
 
-# Copy application code
-COPY . .
+# Copy application code (excluding node_modules)
+COPY app ./app
+COPY next.config.js ./
+COPY postcss.config.js ./
+COPY tailwind.config.js ./
+COPY tsconfig.json ./
+COPY next-env.d.ts ./
 
 # Expose port
 EXPOSE 3000
