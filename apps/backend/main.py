@@ -96,18 +96,34 @@ async def detailed_health_check():
     try:
         health_service: HealthService = app.state.health_service
         health_status = await health_service.check_all_services()
+        db_manager: DatabaseManager = app.state.db_manager
         
-        # Determine overall status
-        overall_status = "healthy"
-        if any(not service["healthy"] for service in health_status.values()):
-            overall_status = "degraded"
-        if all(not service["healthy"] for service in health_status.values()):
+        # Determine overall status based on required vs optional services
+        healthy_required = all(
+            health_status.get(service, {}).get("healthy", False) 
+            for service in settings.REQUIRED_SERVICES
+        )
+        
+        if healthy_required:
+            # Check if any optional services are down
+            unhealthy_optional = any(
+                not health_status.get(service, {}).get("healthy", False)
+                for service in settings.OPTIONAL_SERVICES
+            )
+            overall_status = "degraded" if unhealthy_optional else "healthy"
+        else:
             overall_status = "unhealthy"
         
         return {
             "status": overall_status,
             "timestamp": settings.get_current_timestamp(),
-            "services": health_status
+            "services": health_status,
+            "service_classification": {
+                "required_services": settings.REQUIRED_SERVICES,
+                "optional_services": settings.OPTIONAL_SERVICES,
+                "available_services": db_manager._get_available_services(),
+                "failed_services": list(db_manager.get_failed_services())
+            }
         }
     except Exception as e:
         logger.error(f"Health check failed: {str(e)}")
@@ -120,6 +136,7 @@ async def postgres_health():
     try:
         health_service: HealthService = app.state.health_service
         status = await health_service.check_postgres()
+        status["service_type"] = "required"
         return status
     except Exception as e:
         logger.error(f"PostgreSQL health check failed: {str(e)}")
@@ -130,48 +147,108 @@ async def postgres_health():
 async def elasticsearch_health():
     """Elasticsearch health check."""
     try:
+        db_manager: DatabaseManager = app.state.db_manager
+        if "elasticsearch" in db_manager.get_failed_services():
+            return {
+                "healthy": False,
+                "message": "Elasticsearch is not available (failed to initialize)",
+                "service_type": "optional",
+                "timestamp": settings.get_current_timestamp()
+            }
+        
         health_service: HealthService = app.state.health_service
         status = await health_service.check_elasticsearch()
+        status["service_type"] = "optional"
         return status
     except Exception as e:
         logger.error(f"Elasticsearch health check failed: {str(e)}")
-        raise HTTPException(status_code=503, detail="Elasticsearch health check failed")
+        return {
+            "healthy": False,
+            "message": f"Elasticsearch health check failed: {str(e)}",
+            "service_type": "optional",
+            "timestamp": settings.get_current_timestamp()
+        }
 
 
 @app.get("/health/neo4j")
 async def neo4j_health():
     """Neo4j database health check."""
     try:
+        db_manager: DatabaseManager = app.state.db_manager
+        if "neo4j" in db_manager.get_failed_services():
+            return {
+                "healthy": False,
+                "message": "Neo4j is not available (failed to initialize)",
+                "service_type": "optional",
+                "timestamp": settings.get_current_timestamp()
+            }
+        
         health_service: HealthService = app.state.health_service
         status = await health_service.check_neo4j()
+        status["service_type"] = "optional"
         return status
     except Exception as e:
         logger.error(f"Neo4j health check failed: {str(e)}")
-        raise HTTPException(status_code=503, detail="Neo4j health check failed")
+        return {
+            "healthy": False,
+            "message": f"Neo4j health check failed: {str(e)}",
+            "service_type": "optional",
+            "timestamp": settings.get_current_timestamp()
+        }
 
 
 @app.get("/health/minio")
 async def minio_health():
     """MinIO object storage health check."""
     try:
+        db_manager: DatabaseManager = app.state.db_manager
+        if "minio" in db_manager.get_failed_services():
+            return {
+                "healthy": False,
+                "message": "MinIO is not available (failed to initialize)",
+                "service_type": "optional",
+                "timestamp": settings.get_current_timestamp()
+            }
+        
         health_service: HealthService = app.state.health_service
         status = await health_service.check_minio()
+        status["service_type"] = "optional"
         return status
     except Exception as e:
         logger.error(f"MinIO health check failed: {str(e)}")
-        raise HTTPException(status_code=503, detail="MinIO health check failed")
+        return {
+            "healthy": False,
+            "message": f"MinIO health check failed: {str(e)}",
+            "service_type": "optional",
+            "timestamp": settings.get_current_timestamp()
+        }
 
 
 @app.get("/health/redis")
 async def redis_health():
     """Redis cache health check."""
     try:
+        db_manager: DatabaseManager = app.state.db_manager
+        if "redis" in db_manager.get_failed_services():
+            return {
+                "healthy": False,
+                "message": "Redis is not available (failed to initialize)",
+                "service_type": "optional",
+                "timestamp": settings.get_current_timestamp()
+            }
+        
         health_service: HealthService = app.state.health_service
         status = await health_service.check_redis()
+        status["service_type"] = "optional"
         return status
     except Exception as e:
         logger.error(f"Redis health check failed: {str(e)}")
-        raise HTTPException(status_code=503, detail="Redis health check failed")
+        return {
+            "healthy": False,
+            "message": f"Redis health check failed: {str(e)}",
+            "service_type": "optional",
+            "timestamp": settings.get_current_timestamp()
+        }
 
 
 # Include API routes

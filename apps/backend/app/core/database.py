@@ -31,6 +31,7 @@ class DatabaseManager(LoggerMixin):
         self._minio_client = None
         self._redis_client = None
         self._initialized = False
+        self._failed_services = set()  # Track which optional services failed to initialize
     
     async def initialize(self) -> None:
         """Initialize all database connections."""
@@ -38,31 +39,58 @@ class DatabaseManager(LoggerMixin):
             self.logger.warning("Database manager already initialized")
             return
         
+        self.logger.info("Initializing database connections...")
+        
+        # Initialize required services first
+        required_failures = []
+        
+        # Initialize PostgreSQL (always required)
         try:
-            self.logger.info("Initializing database connections...")
-            
-            # Initialize PostgreSQL
             await self._init_postgres()
-            
-            # Initialize Elasticsearch
-            await self._init_elasticsearch()
-            
-            # Initialize Neo4j
-            await self._init_neo4j()
-            
-            # Initialize MinIO
-            await self._init_minio()
-            
-            # Initialize Redis
-            await self._init_redis()
-            
-            self._initialized = True
-            self.logger.info("All database connections initialized successfully")
-            
+            self.logger.info("PostgreSQL initialized successfully")
         except Exception as e:
-            self.logger.error(f"Failed to initialize database connections: {str(e)}")
+            self.logger.error(f"Failed to initialize required service PostgreSQL: {str(e)}")
+            required_failures.append(("postgres", str(e)))
+        
+        # If required services failed and graceful degradation is disabled, fail fast
+        if required_failures and not settings.ENABLE_GRACEFUL_DEGRADATION:
             await self.close_all()
-            raise
+            raise RuntimeError(f"Required services failed to initialize: {[f[0] for f in required_failures]}")
+        
+        # Initialize optional services
+        optional_init_tasks = [
+            ("elasticsearch", self._init_elasticsearch()),
+            ("neo4j", self._init_neo4j()),
+            ("minio", self._init_minio()),
+            ("redis", self._init_redis())
+        ]
+        
+        for service_name, init_task in optional_init_tasks:
+            try:
+                await init_task
+                self.logger.info(f"{service_name.capitalize()} initialized successfully")
+            except Exception as e:
+                if service_name in settings.REQUIRED_SERVICES:
+                    self.logger.error(f"Failed to initialize required service {service_name}: {str(e)}")
+                    required_failures.append((service_name, str(e)))
+                else:
+                    self.logger.warning(f"Failed to initialize optional service {service_name}: {str(e)}")
+                    self._failed_services.add(service_name)
+        
+        # Check if we have any required service failures
+        if required_failures:
+            await self.close_all()
+            raise RuntimeError(f"Required services failed to initialize: {[f[0] for f in required_failures]}")
+        
+        self._initialized = True
+        
+        # Log initialization summary
+        if self._failed_services:
+            self.logger.warning(f"Application started with degraded functionality. Failed optional services: {list(self._failed_services)}")
+        else:
+            self.logger.info("All database connections initialized successfully")
+        
+        self.logger.info(f"Database manager initialized. Available services: {self._get_available_services()}")
     
     async def _init_postgres(self) -> None:
         """Initialize PostgreSQL connection."""
@@ -224,7 +252,31 @@ class DatabaseManager(LoggerMixin):
                 self.logger.error(f"Error closing PostgreSQL connection: {str(e)}")
         
         self._initialized = False
+        self._failed_services.clear()
         self.logger.info("All database connections closed")
+    
+    def _get_available_services(self) -> list:
+        """Get list of successfully initialized services."""
+        available = []
+        if self._postgres_engine:
+            available.append("postgres")
+        if self._elasticsearch_client:
+            available.append("elasticsearch")
+        if self._neo4j_driver:
+            available.append("neo4j")
+        if self._minio_client:
+            available.append("minio")
+        if self._redis_client:
+            available.append("redis")
+        return available
+    
+    def is_service_available(self, service_name: str) -> bool:
+        """Check if a specific service is available."""
+        return service_name not in self._failed_services and getattr(self, f"_{service_name}_client", None) is not None or (service_name == "postgres" and self._postgres_engine is not None)
+    
+    def get_failed_services(self) -> set:
+        """Get set of services that failed to initialize."""
+        return self._failed_services.copy()
     
     # Property accessors for database clients
     @property
@@ -244,30 +296,75 @@ class DatabaseManager(LoggerMixin):
     @property
     def elasticsearch(self):
         """Get Elasticsearch client."""
-        if not self._initialized or not self._elasticsearch_client:
-            raise RuntimeError("Elasticsearch not initialized")
+        if not self._initialized:
+            raise RuntimeError("Database manager not initialized")
+        if not self._elasticsearch_client:
+            if "elasticsearch" in self._failed_services:
+                raise RuntimeError("Elasticsearch is not available (failed to initialize)")
+            else:
+                raise RuntimeError("Elasticsearch not initialized")
         return self._elasticsearch_client
     
     @property
     def neo4j(self):
         """Get Neo4j driver."""
-        if not self._initialized or not self._neo4j_driver:
-            raise RuntimeError("Neo4j not initialized")
+        if not self._initialized:
+            raise RuntimeError("Database manager not initialized")
+        if not self._neo4j_driver:
+            if "neo4j" in self._failed_services:
+                raise RuntimeError("Neo4j is not available (failed to initialize)")
+            else:
+                raise RuntimeError("Neo4j not initialized")
         return self._neo4j_driver
     
     @property
     def minio(self):
         """Get MinIO client."""
-        if not self._initialized or not self._minio_client:
-            raise RuntimeError("MinIO not initialized")
+        if not self._initialized:
+            raise RuntimeError("Database manager not initialized")
+        if not self._minio_client:
+            if "minio" in self._failed_services:
+                raise RuntimeError("MinIO is not available (failed to initialize)")
+            else:
+                raise RuntimeError("MinIO not initialized")
         return self._minio_client
     
     @property
     def redis(self):
         """Get Redis client."""
-        if not self._initialized or not self._redis_client:
-            raise RuntimeError("Redis not initialized")
+        if not self._initialized:
+            raise RuntimeError("Database manager not initialized")
+        if not self._redis_client:
+            if "redis" in self._failed_services:
+                raise RuntimeError("Redis is not available (failed to initialize)")
+            else:
+                raise RuntimeError("Redis not initialized")
         return self._redis_client
+    
+    # Safe accessor methods for optional services
+    def get_elasticsearch_safe(self):
+        """Get Elasticsearch client safely, returns None if not available."""
+        if self._initialized and self._elasticsearch_client and "elasticsearch" not in self._failed_services:
+            return self._elasticsearch_client
+        return None
+    
+    def get_neo4j_safe(self):
+        """Get Neo4j driver safely, returns None if not available."""
+        if self._initialized and self._neo4j_driver and "neo4j" not in self._failed_services:
+            return self._neo4j_driver
+        return None
+    
+    def get_minio_safe(self):
+        """Get MinIO client safely, returns None if not available."""
+        if self._initialized and self._minio_client and "minio" not in self._failed_services:
+            return self._minio_client
+        return None
+    
+    def get_redis_safe(self):
+        """Get Redis client safely, returns None if not available."""
+        if self._initialized and self._redis_client and "redis" not in self._failed_services:
+            return self._redis_client
+        return None
     
     @asynccontextmanager
     async def get_postgres_session(self):
@@ -287,6 +384,16 @@ class DatabaseManager(LoggerMixin):
         """Get Neo4j session context manager."""
         async with self.neo4j.session(database=settings.NEO4J_DATABASE) as session:
             yield session
+    
+    @asynccontextmanager
+    async def get_neo4j_session_safe(self):
+        """Get Neo4j session context manager safely, yields None if not available."""
+        neo4j_driver = self.get_neo4j_safe()
+        if neo4j_driver:
+            async with neo4j_driver.session(database=settings.NEO4J_DATABASE) as session:
+                yield session
+        else:
+            yield None
     
     async def health_check(self) -> Dict[str, Dict[str, Any]]:
         """Perform health check on all database connections."""

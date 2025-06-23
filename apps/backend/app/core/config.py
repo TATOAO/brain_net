@@ -4,9 +4,9 @@ Loads configuration from environment variables with proper validation.
 """
 
 import os
-from typing import List, Optional
+from typing import List, Optional, Union
 from datetime import datetime
-from pydantic import field_validator
+from pydantic import field_validator, Field
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
@@ -64,12 +64,12 @@ class Settings(BaseSettings):
     CHUNK_SIZE: int = 1000
     CHUNK_OVERLAP: int = 200
     MAX_FILE_SIZE: int = 50 * 1024 * 1024  # 50MB in bytes
-    SUPPORTED_FORMATS: List[str] = ["pdf", "docx", "txt", "md", "html", "csv", "json"]
+    SUPPORTED_FORMATS: Union[str, List[str]] = Field(default="pdf,docx,txt,md,html,csv,json")
     
     # Query Generation Settings
     QUERY_GENERATION_MODEL: str = "gpt-3.5-turbo"
     QUERIES_PER_DOCUMENT: int = 5
-    QUERY_COMPLEXITY_LEVELS: List[str] = ["simple", "medium", "complex"]
+    QUERY_COMPLEXITY_LEVELS: Union[str, List[str]] = Field(default="simple,medium,complex")
     
     # Security Settings
     SECRET_KEY: str = "your_secret_key_here_minimum_32_characters"
@@ -78,9 +78,14 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     
     # CORS Settings
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:80"]
+    CORS_ORIGINS: Union[str, List[str]] = Field(default="http://localhost:3000,http://localhost:80")
     CORS_METHODS: str = "GET,POST,PUT,DELETE,OPTIONS"
     CORS_HEADERS: str = "*"
+    
+    # Service Dependencies Settings
+    REQUIRED_SERVICES: Union[str, List[str]] = Field(default="postgres")  # Services that MUST be available
+    OPTIONAL_SERVICES: Union[str, List[str]] = Field(default="elasticsearch,neo4j,minio,redis")  # Services that are nice-to-have
+    ENABLE_GRACEFUL_DEGRADATION: bool = True  # Allow app to start with some services unavailable
     
     # Logging Settings
     LOG_LEVEL: str = "INFO"
@@ -108,32 +113,34 @@ class Settings(BaseSettings):
     
     model_config = {
         "env_file": ".env",
-        "case_sensitive": True
+        "case_sensitive": True,
+        "env_parse_none_str": "None",
+        "env_parse_enums": True,
+        "env_nested_delimiter": "__",
+        "env_ignore_empty": True
     }
     
-    @field_validator("CORS_ORIGINS", mode="before")
+    @field_validator("CORS_ORIGINS", "REQUIRED_SERVICES", "OPTIONAL_SERVICES", "SUPPORTED_FORMATS", "QUERY_COMPLEXITY_LEVELS")
     @classmethod
-    def parse_cors_origins(cls, v):
-        """Parse CORS origins from comma-separated string."""
-        if isinstance(v, str):
-            return [origin.strip() for origin in v.split(",")]
-        return v
-    
-    @field_validator("SUPPORTED_FORMATS", mode="before")
-    @classmethod
-    def parse_supported_formats(cls, v):
-        """Parse supported formats from comma-separated string."""
-        if isinstance(v, str):
-            return [fmt.strip() for fmt in v.split(",")]
-        return v
-    
-    @field_validator("QUERY_COMPLEXITY_LEVELS", mode="before")
-    @classmethod
-    def parse_complexity_levels(cls, v):
-        """Parse query complexity levels from comma-separated string."""
-        if isinstance(v, str):
-            return [level.strip() for level in v.split(",")]
-        return v
+    def parse_list_fields(cls, v, info):
+        """Parse list fields from comma-separated string or return list as-is."""
+        field_name = info.field_name
+        
+        # Default values for each field  
+        defaults = {
+            "CORS_ORIGINS": ["http://localhost:3000", "http://localhost:80"],
+            "REQUIRED_SERVICES": ["postgres"],
+            "OPTIONAL_SERVICES": ["elasticsearch", "neo4j", "minio", "redis"],
+            "SUPPORTED_FORMATS": ["pdf", "docx", "txt", "md", "html", "csv", "json"],
+            "QUERY_COMPLEXITY_LEVELS": ["simple", "medium", "complex"]
+        }
+        
+        if isinstance(v, str) and v.strip():
+            return [item.strip() for item in v.split(",") if item.strip()]
+        elif isinstance(v, list):
+            return v
+        else:
+            return defaults.get(field_name, [])
     
     @field_validator("MAX_FILE_SIZE", mode="before")
     @classmethod
@@ -179,4 +186,25 @@ def get_settings() -> Settings:
 
 
 # Global settings instance
-settings = get_settings() 
+# Note: This will be initialized when first accessed to prevent import-time errors
+_settings = None
+
+def get_settings_instance():
+    """Get the global settings instance, creating it if necessary."""
+    global _settings
+    if _settings is None:
+        _settings = get_settings()
+    return _settings
+
+# Create a lazy settings proxy
+class SettingsProxy:
+    def __init__(self):
+        self._settings = None
+    
+    def __getattr__(self, name):
+        if self._settings is None:
+            self._settings = get_settings()
+        return getattr(self._settings, name)
+
+# For backwards compatibility
+settings = SettingsProxy() 
