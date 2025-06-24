@@ -13,6 +13,7 @@ from typing import Dict, Any
 
 from app.core.config import settings
 from app.core.logging import setup_logging
+from app.core.telemetry import initialize_telemetry, get_tracer, get_meter
 from app.api.v1.router import api_router
 from app.services.health import HealthService
 from app.core.database import DatabaseManager
@@ -30,6 +31,9 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     """Application lifespan manager for startup and shutdown events."""
     logger.info("Starting Brain_Net Backend Application...")
+    
+    # Initialize OpenTelemetry first
+    initialize_telemetry()
     
     # Initialize database connections
     db_manager = DatabaseManager()

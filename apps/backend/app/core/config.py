@@ -94,6 +94,15 @@ class Settings(BaseSettings):
     ENABLE_TRACING: bool = True
     METRICS_PORT: int = 8080
     
+    # OpenTelemetry Settings
+    OTEL_ENABLED: bool = Field(default=True, env="OTEL_ENABLED")
+    OTEL_REQUIRED: bool = Field(default=False, env="OTEL_REQUIRED")
+    OTEL_EXPORTER_OTLP_ENDPOINT: str = Field(default="http://otel-collector:4317", env="OTEL_EXPORTER_OTLP_ENDPOINT")
+    OTEL_SERVICE_NAME: str = Field(default="brain_net_backend", env="OTEL_SERVICE_NAME")
+    OTEL_SERVICE_VERSION: str = Field(default="1.0.0", env="OTEL_SERVICE_VERSION")
+    OTEL_RESOURCE_ATTRIBUTES: str = Field(default="", env="OTEL_RESOURCE_ATTRIBUTES")
+    OTEL_INSECURE: bool = Field(default=True, env="OTEL_INSECURE")
+    
     # Health Check Settings
     HEALTH_CHECK_INTERVAL: str = "30s"
     HEALTH_CHECK_TIMEOUT: str = "10s"

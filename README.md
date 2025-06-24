@@ -77,10 +77,32 @@ brain_net/
 ├── apps/
 │   ├── backend/           # FastAPI backend application
 │   ├── frontend/          # Next.js frontend application
-│   └── shared/            # Shared utilities and types
-├── docker/                # Docker configurations
-├── docs/                  # Documentation
-└── scripts/               # Utility scripts
+│   ├── shared/            # Shared utilities and types
+│   ├── llm/               # LLM service
+│   │   ├── app/
+│   │   │   ├── __init__.py
+│   │   │   ├── main.py
+│   │   │   ├── api/
+│   │   │   │   ├── v1/
+│   │   │   │   │   ├── chat.py
+│   │   │   │   │   ├── agents.py
+│   │   │   │   │   └── rag.py
+│   │   │   │   ├── core/
+│   │   │   │   │   ├── config.py
+│   │   │   │   │   └── agents/
+│   │   │   │   │       ├── crew_ai_agents.py
+│   │   │   │   │       └── langraph_agents.py
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── rag_service.py
+│   │   │   │   │   ├── embedding_service.py
+│   │   │   │   │   └── vector_service.py
+│   │   │   │   └── models/
+│   │   │   ├── requirements.txt
+│   │   │   └── Dockerfile
+│   │   └── README.md
+│   ├── docker/                # Docker configurations
+│   ├── docs/                  # Documentation
+│   └── scripts/               # Utility scripts
 ```
 
 ## 🔧 Configuration
