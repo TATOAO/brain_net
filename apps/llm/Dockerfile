@@ -11,6 +11,22 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Set work directory
 WORKDIR /app
 
+# Accept build arguments for mirrors
+ARG APT_MIRROR=""
+ARG APT_SECURITY_MIRROR=""
+ARG PYPI_INDEX_URL=""
+ARG PYPI_TRUSTED_HOST=""
+
+# Configure APT mirrors if provided
+RUN if [ -n "$APT_MIRROR" ]; then \
+        echo "Configuring APT mirror: $APT_MIRROR"; \
+        echo "deb http://$APT_MIRROR bookworm main" > /etc/apt/sources.list && \
+        echo "deb http://$APT_MIRROR bookworm-updates main" >> /etc/apt/sources.list; \
+        if [ -n "$APT_SECURITY_MIRROR" ]; then \
+            echo "deb http://$APT_SECURITY_MIRROR bookworm-security main" >> /etc/apt/sources.list; \
+        fi; \
+    fi
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -34,7 +50,15 @@ RUN mkdir -p /app/logs /app/data /app/models /app/cache
 COPY --chown=llm:llm apps/llm/requirements.txt /app/
 
 # Install Python dependencies
-RUN pip install --user --no-cache-dir -r requirements.txt
+RUN if [ -n "$PYPI_INDEX_URL" ]; then \
+        if [ -n "$PYPI_TRUSTED_HOST" ]; then \
+            pip install --user --no-cache-dir -r requirements.txt -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
+        else \
+            pip install --user --no-cache-dir -r requirements.txt -i $PYPI_INDEX_URL; \
+        fi; \
+    else \
+        pip install --user --no-cache-dir -r requirements.txt; \
+    fi
 
 # Add user's pip bin to PATH
 ENV PATH="/home/llm/.local/bin:${PATH}"

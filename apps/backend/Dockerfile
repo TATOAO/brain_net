@@ -9,6 +9,20 @@ ENV PYTHONPATH=/app
 # Set work directory
 WORKDIR /app
 
+# Accept build arguments for mirrors
+ARG APT_MIRROR=""
+ARG APT_SECURITY_MIRROR=""
+
+# Configure APT mirrors if provided
+RUN if [ -n "$APT_MIRROR" ]; then \
+        echo "Configuring APT mirror: $APT_MIRROR"; \
+        echo "deb http://$APT_MIRROR bookworm main" > /etc/apt/sources.list && \
+        echo "deb http://$APT_MIRROR bookworm-updates main" >> /etc/apt/sources.list; \
+        if [ -n "$APT_SECURITY_MIRROR" ]; then \
+            echo "deb http://$APT_SECURITY_MIRROR bookworm-security main" >> /etc/apt/sources.list; \
+        fi; \
+    fi
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
@@ -23,8 +37,21 @@ RUN pip install --no-cache-dir uv
 # Copy requirements first for better caching
 COPY apps/backend/requirements.txt .
 
+# Set default PyPI index URL - can be overridden with build args
+ARG PYPI_INDEX_URL=""
+ARG PYPI_TRUSTED_HOST=""
+
 # Install Python dependencies using uv (much faster than pip)
-RUN uv pip install --system --no-cache -r requirements.txt
+# Only add -i flag if PYPI_INDEX_URL is provided
+RUN if [ -n "$PYPI_INDEX_URL" ]; then \
+        if [ -n "$PYPI_TRUSTED_HOST" ]; then \
+            uv pip install --system --no-cache -r requirements.txt -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
+        else \
+            uv pip install --system --no-cache -r requirements.txt -i $PYPI_INDEX_URL; \
+        fi; \
+    else \
+        uv pip install --system --no-cache -r requirements.txt; \
+    fi
 
 # Copy shared models and apps package structure
 COPY apps/__init__.py /app/apps/__init__.py

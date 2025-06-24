@@ -4,6 +4,11 @@ services:
     build:
       context: ../
       dockerfile: apps/backend/Dockerfile
+      args:
+        PYPI_INDEX_URL: ${PYPI_INDEX_URL:-https://pypi.org/simple}
+        PYPI_TRUSTED_HOST: ${PYPI_TRUSTED_HOST:-}
+        APT_MIRROR: ${APT_MIRROR:-}
+        APT_SECURITY_MIRROR: ${APT_SECURITY_MIRROR:-}
     container_name: brain_net_backend
     ports:
       - "${BACKEND_PORT:-8000}:8000"
@@ -49,6 +54,11 @@ services:
     build:
       context: ../
       dockerfile: apps/llm/Dockerfile
+      args:
+        PYPI_INDEX_URL: ${PYPI_INDEX_URL:-https://pypi.org/simple}
+        PYPI_TRUSTED_HOST: ${PYPI_TRUSTED_HOST:-}
+        APT_MIRROR: ${APT_MIRROR:-}
+        APT_SECURITY_MIRROR: ${APT_SECURITY_MIRROR:-}
     container_name: brain_net_llm
     ports:
       - "${LLM_PORT:-8001}:8001"
