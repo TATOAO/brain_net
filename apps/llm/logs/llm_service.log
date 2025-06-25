@@ -146,3 +146,349 @@
 2025-06-25 07:36:05,125 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:36:05.125168Z"}
 2025-06-25 07:36:05,128 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:36:05.127950Z"}
 2025-06-25 07:36:05,135 - main - INFO - LLM Service startup complete
+2025-06-25 08:34:49,116 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:34:49,191 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:34:49.185415Z"}
+2025-06-25 08:34:49,490 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:34:49.488465Z"}
+2025-06-25 08:34:49,493 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:35:05,612 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:35:05,613 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:35:05,613 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:35:05,862 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:35:05,865 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:35:05,910 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:35:05,913 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:35:06,386 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:35:06,386 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:35:06,387 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:06.387472Z"}
+2025-06-25 08:35:06,465 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:06.465086Z"}
+2025-06-25 08:35:06,513 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:06.513468Z"}
+2025-06-25 08:35:06,640 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.234s]
+2025-06-25 08:35:06,641 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:06.641411Z"}
+2025-06-25 08:35:07,013 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:07.013295Z"}
+2025-06-25 08:35:07,017 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:07.016814Z"}
+2025-06-25 08:35:07,021 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:07.021125Z"}
+2025-06-25 08:35:07,021 - main - INFO - LLM Service startup complete
+2025-06-25 08:35:07,835 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:35:07,837 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:07.837367Z"}
+2025-06-25 08:35:07,847 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:07.846608Z"}
+2025-06-25 08:35:07,847 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:35:13,253 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:35:13,253 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:35:13,254 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:35:13,387 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:35:13,388 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:35:13,430 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:35:13,431 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:35:13,587 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:35:13,588 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:35:13,591 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:13.590798Z"}
+2025-06-25 08:35:13,629 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:13.629010Z"}
+2025-06-25 08:35:13,720 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:13.720137Z"}
+2025-06-25 08:35:13,730 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.128s]
+2025-06-25 08:35:13,732 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:13.732549Z"}
+2025-06-25 08:35:13,759 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:13.759468Z"}
+2025-06-25 08:35:14,032 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:14.032125Z"}
+2025-06-25 08:35:14,035 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:14.035643Z"}
+2025-06-25 08:35:14,036 - main - INFO - LLM Service startup complete
+2025-06-25 08:35:22,381 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:35:22,384 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:22.383802Z"}
+2025-06-25 08:35:22,398 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:22.398618Z"}
+2025-06-25 08:35:22,400 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:35:26,975 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:35:26,976 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:35:26,976 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:35:27,094 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:35:27,095 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:35:27,118 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:35:27,119 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:35:27,223 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:35:27,224 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:35:27,225 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:27.225000Z"}
+2025-06-25 08:35:27,244 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:27.244861Z"}
+2025-06-25 08:35:27,254 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:27.254721Z"}
+2025-06-25 08:35:27,309 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.080s]
+2025-06-25 08:35:27,310 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:27.310358Z"}
+2025-06-25 08:35:27,321 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:27.321774Z"}
+2025-06-25 08:35:27,554 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:27.553974Z"}
+2025-06-25 08:35:27,554 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:27.554689Z"}
+2025-06-25 08:35:27,555 - main - INFO - LLM Service startup complete
+2025-06-25 08:35:42,167 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:35:42,168 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:42.168742Z"}
+2025-06-25 08:35:42,179 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:42.179141Z"}
+2025-06-25 08:35:42,179 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:35:46,745 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:35:46,750 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:35:46,750 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:35:46,896 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:35:46,898 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:35:46,956 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:35:46,966 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:35:47,141 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:35:47,142 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:35:47,144 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:47.143125Z"}
+2025-06-25 08:35:47,172 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:47.172612Z"}
+2025-06-25 08:35:47,182 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.030s]
+2025-06-25 08:35:47,183 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:47.183519Z"}
+2025-06-25 08:35:47,246 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:47.246619Z"}
+2025-06-25 08:35:47,262 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:47.262796Z"}
+2025-06-25 08:35:47,469 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:47.469156Z"}
+2025-06-25 08:35:47,469 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:35:47.469773Z"}
+2025-06-25 08:35:47,470 - main - INFO - LLM Service startup complete
+2025-06-25 08:38:59,869 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:38:59,870 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:38:59.870543Z"}
+2025-06-25 08:38:59,881 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:38:59.881484Z"}
+2025-06-25 08:38:59,882 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:39:05,057 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:39:05,058 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:39:05,059 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:39:05,181 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:39:05,182 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:39:05,205 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:39:05,206 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:39:05,343 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:39:05,344 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:39:05,345 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:05.345586Z"}
+2025-06-25 08:39:05,367 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:05.367172Z"}
+2025-06-25 08:39:05,374 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:05.374565Z"}
+2025-06-25 08:39:05,376 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.022s]
+2025-06-25 08:39:05,377 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:05.376914Z"}
+2025-06-25 08:39:05,651 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:05.651510Z"}
+2025-06-25 08:39:05,654 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:05.654226Z"}
+2025-06-25 08:39:05,655 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:05.655141Z"}
+2025-06-25 08:39:05,655 - main - INFO - LLM Service startup complete
+2025-06-25 08:39:18,519 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:39:18,520 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:18.520145Z"}
+2025-06-25 08:39:18,531 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:18.531423Z"}
+2025-06-25 08:39:18,532 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:39:23,743 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:39:23,744 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:39:23,746 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:39:23,872 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:39:23,873 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:39:23,900 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:39:23,900 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:39:24,037 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:39:24,038 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:39:24,039 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:24.039061Z"}
+2025-06-25 08:39:24,069 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:24.069375Z"}
+2025-06-25 08:39:24,083 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.038s]
+2025-06-25 08:39:24,084 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:24.084068Z"}
+2025-06-25 08:39:24,141 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:24.141857Z"}
+2025-06-25 08:39:24,209 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:24.209116Z"}
+2025-06-25 08:39:24,349 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:24.349825Z"}
+2025-06-25 08:39:24,351 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:39:24.351875Z"}
+2025-06-25 08:39:24,352 - main - INFO - LLM Service startup complete
+2025-06-25 08:44:37,726 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:44:37,728 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:37.728707Z"}
+2025-06-25 08:44:37,730 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:37.730848Z"}
+2025-06-25 08:44:37,731 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:44:43,078 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:44:43,079 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:44:43,079 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:44:43,106 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:44:43,106 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:44:43,124 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:44:43,124 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:44:43,149 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:44:43,149 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:44:43,150 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:43.149963Z"}
+2025-06-25 08:44:43,173 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:43.173839Z"}
+2025-06-25 08:44:43,230 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:43.229900Z"}
+2025-06-25 08:44:43,230 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.072s]
+2025-06-25 08:44:43,231 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:43.231223Z"}
+2025-06-25 08:44:43,417 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:43.416986Z"}
+2025-06-25 08:44:43,419 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:43.419118Z"}
+2025-06-25 08:44:43,419 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:43.419781Z"}
+2025-06-25 08:44:43,420 - main - INFO - LLM Service startup complete
+2025-06-25 08:44:54,557 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:44:54,558 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:54.558396Z"}
+2025-06-25 08:44:54,574 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:44:54.574229Z"}
+2025-06-25 08:44:54,576 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:45:04,614 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:45:04,616 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:45:04,617 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:45:04,649 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:45:04,650 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:45:04,676 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:45:04,676 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:45:04,705 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:45:04,705 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:45:04,706 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:45:04.706267Z"}
+2025-06-25 08:45:04,732 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:45:04.732157Z"}
+2025-06-25 08:45:04,741 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:45:04.741837Z"}
+2025-06-25 08:45:04,794 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.080s]
+2025-06-25 08:45:04,795 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:45:04.795469Z"}
+2025-06-25 08:45:04,958 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:45:04.958365Z"}
+2025-06-25 08:45:05,173 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:45:05.173786Z"}
+2025-06-25 08:45:05,174 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:45:05.174657Z"}
+2025-06-25 08:45:05,175 - main - INFO - LLM Service startup complete
+2025-06-25 08:46:17,022 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:46:17,023 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:46:17.023495Z"}
+2025-06-25 08:46:17,034 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:46:17.034528Z"}
+2025-06-25 08:46:17,037 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:46:22,428 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:46:22,430 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:46:22,431 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:46:22,475 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:46:22,475 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:46:22,504 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:46:22,505 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:46:22,541 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:46:22,541 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:46:22,542 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:46:22.542265Z"}
+2025-06-25 08:46:22,570 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:46:22.570249Z"}
+2025-06-25 08:46:22,653 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:46:22.653521Z"}
+2025-06-25 08:46:22,655 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.105s]
+2025-06-25 08:46:22,656 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:46:22.656204Z"}
+2025-06-25 08:46:22,864 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:46:22.864789Z"}
+2025-06-25 08:46:22,941 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:46:22.940951Z"}
+2025-06-25 08:46:22,942 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:46:22.942116Z"}
+2025-06-25 08:46:22,942 - main - INFO - LLM Service startup complete
+2025-06-25 08:48:31,344 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:48:31,346 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:31.346672Z"}
+2025-06-25 08:48:31,362 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:31.362457Z"}
+2025-06-25 08:48:31,363 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:48:36,034 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:48:36,035 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:48:36,035 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:48:36,074 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:48:36,074 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:48:36,106 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:48:36,107 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:48:36,134 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:48:36,135 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:48:36,135 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:36.135722Z"}
+2025-06-25 08:48:36,164 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:36.164388Z"}
+2025-06-25 08:48:36,168 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:36.168692Z"}
+2025-06-25 08:48:36,176 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.033s]
+2025-06-25 08:48:36,177 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:36.177123Z"}
+2025-06-25 08:48:36,274 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:36.274433Z"}
+2025-06-25 08:48:36,508 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:36.508145Z"}
+2025-06-25 08:48:36,508 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:36.508873Z"}
+2025-06-25 08:48:36,509 - main - INFO - LLM Service startup complete
+2025-06-25 08:48:46,244 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:48:46,244 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:46.244493Z"}
+2025-06-25 08:48:46,256 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:46.256866Z"}
+2025-06-25 08:48:46,257 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:48:57,690 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:48:57,691 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:48:57,692 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:48:57,723 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:48:57,724 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:48:57,752 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:48:57,753 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:48:57,773 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:48:57,774 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:48:57,774 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:57.774795Z"}
+2025-06-25 08:48:57,802 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:57.802352Z"}
+2025-06-25 08:48:57,810 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:57.810815Z"}
+2025-06-25 08:48:57,811 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.025s]
+2025-06-25 08:48:57,812 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:57.812204Z"}
+2025-06-25 08:48:57,875 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:57.875821Z"}
+2025-06-25 08:48:58,105 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:58.105467Z"}
+2025-06-25 08:48:58,106 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:48:58.106248Z"}
+2025-06-25 08:48:58,106 - main - INFO - LLM Service startup complete
+2025-06-25 08:51:00,284 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 08:51:00,285 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:51:00.285335Z"}
+2025-06-25 08:51:00,312 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:51:00.312538Z"}
+2025-06-25 08:51:00,313 - main - INFO - LLM Service shutdown complete
+2025-06-25 08:54:47,684 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 08:54:47,691 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 08:54:47,699 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 08:54:47,890 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 08:54:47,891 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 08:54:47,941 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 08:54:47,949 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 08:54:48,049 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 08:54:48,055 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 08:54:48,070 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:54:48.070723Z"}
+2025-06-25 08:54:48,262 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:54:48.262142Z"}
+2025-06-25 08:54:48,291 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:N/A duration:0.190s]
+2025-06-25 08:54:48,293 - elastic_transport.node_pool - WARNING - Node <AiohttpHttpNode(http://elasticsearch:9200)> has failed for 1 times in a row, putting on 1 second timeout
+2025-06-25 08:54:48,295 - elastic_transport.transport - WARNING - Retrying request after failure (attempt 0 of 3)
+Traceback (most recent call last):
+  File "/home/llm/.local/lib/python3.11/site-packages/elastic_transport/_async_transport.py", line 264, in perform_request
+    resp = await node.perform_request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llm/.local/lib/python3.11/site-packages/elastic_transport/_node/_http_aiohttp.py", line 228, in perform_request
+    raise err from None
+elastic_transport.ConnectionError: Connection error caused by: ClientConnectorError(Cannot connect to host elasticsearch:9200 ssl:default [Connection refused])
+2025-06-25 08:54:48,319 - app.core.database - WARNING - {"event": "Failed to initialize Neo4j: Couldn't connect to neo4j:7687 (resolved to ('172.18.0.9:7687',)):\nFailed to establish connection to ResolvedIPv4Address(('172.18.0.9', 7687)) (reason [Errno 111] Connect call failed ('172.18.0.9', 7687))", "logger": "app.core.database", "level": "warning", "timestamp": "2025-06-25T08:54:48.319473Z"}
+2025-06-25 08:54:48,329 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:N/A duration:0.018s]
+2025-06-25 08:54:48,330 - elastic_transport.node_pool - WARNING - Node <AiohttpHttpNode(http://elasticsearch:9200)> has failed for 2 times in a row, putting on 2 second timeout
+2025-06-25 08:54:48,332 - elastic_transport.transport - WARNING - Retrying request after failure (attempt 1 of 3)
+Traceback (most recent call last):
+  File "/home/llm/.local/lib/python3.11/site-packages/elastic_transport/_async_transport.py", line 264, in perform_request
+    resp = await node.perform_request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llm/.local/lib/python3.11/site-packages/elastic_transport/_node/_http_aiohttp.py", line 228, in perform_request
+    raise err from None
+elastic_transport.ConnectionError: Connection error caused by: ClientConnectorError(Cannot connect to host elasticsearch:9200 ssl:default [Connection refused])
+2025-06-25 08:54:48,335 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:54:48.335271Z"}
+2025-06-25 08:54:48,336 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:N/A duration:0.002s]
+2025-06-25 08:54:48,341 - elastic_transport.node_pool - WARNING - Node <AiohttpHttpNode(http://elasticsearch:9200)> has failed for 3 times in a row, putting on 4 second timeout
+2025-06-25 08:54:48,342 - elastic_transport.transport - WARNING - Retrying request after failure (attempt 2 of 3)
+Traceback (most recent call last):
+  File "/home/llm/.local/lib/python3.11/site-packages/elastic_transport/_async_transport.py", line 264, in perform_request
+    resp = await node.perform_request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/llm/.local/lib/python3.11/site-packages/elastic_transport/_node/_http_aiohttp.py", line 228, in perform_request
+    raise err from None
+elastic_transport.ConnectionError: Connection error caused by: ClientConnectorError(Cannot connect to host elasticsearch:9200 ssl:default [Connection refused])
+2025-06-25 08:54:48,345 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:N/A duration:0.001s]
+2025-06-25 08:54:48,348 - elastic_transport.node_pool - WARNING - Node <AiohttpHttpNode(http://elasticsearch:9200)> has failed for 4 times in a row, putting on 8 second timeout
+2025-06-25 08:54:48,349 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:54:48.349504Z"}
+2025-06-25 08:54:49,236 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:54:49.236726Z"}
+2025-06-25 08:54:49,244 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T08:54:49.244156Z"}
+2025-06-25 08:54:49,245 - app.core.database - WARNING - {"event": "Failed to initialize services: {'neo4j'}", "logger": "app.core.database", "level": "warning", "timestamp": "2025-06-25T08:54:49.244854Z"}
+2025-06-25 08:54:49,245 - main - INFO - LLM Service startup complete
+2025-06-25 09:23:42,271 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 09:23:42,274 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 09:23:42,277 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 09:23:42,843 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 09:23:42,844 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 09:23:42,926 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 09:23:42,928 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 09:23:43,189 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 09:23:43,190 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 09:23:43,193 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T09:23:43.193346Z"}
+2025-06-25 09:23:43,323 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T09:23:43.323496Z"}
+2025-06-25 09:23:43,335 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:N/A duration:0.109s]
+2025-06-25 09:23:43,337 - elastic_transport.node_pool - WARNING - Node <AiohttpHttpNode(http://elasticsearch:9200)> has failed for 1 times in a row, putting on 1 second timeout
+2025-06-25 09:23:43,338 - elastic_transport.transport - WARNING - Retrying request after failure (attempt 0 of 3)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/elastic_transport/_async_transport.py", line 264, in perform_request
+    resp = await node.perform_request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/elastic_transport/_node/_http_aiohttp.py", line 228, in perform_request
+    raise err from None
+elastic_transport.ConnectionError: Connection error caused by: ClientConnectorError(Cannot connect to host elasticsearch:9200 ssl:default [Connection refused])
+2025-06-25 09:23:43,351 - app.core.database - WARNING - {"event": "Failed to initialize Neo4j: Couldn't connect to neo4j:7687 (resolved to ('172.18.0.6:7687',)):\nFailed to establish connection to ResolvedIPv4Address(('172.18.0.6', 7687)) (reason [Errno 111] Connect call failed ('172.18.0.6', 7687))", "logger": "app.core.database", "level": "warning", "timestamp": "2025-06-25T09:23:43.351337Z"}
+2025-06-25 09:23:43,353 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T09:23:43.353665Z"}
+2025-06-25 09:23:43,354 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:N/A duration:0.004s]
+2025-06-25 09:23:43,355 - elastic_transport.node_pool - WARNING - Node <AiohttpHttpNode(http://elasticsearch:9200)> has failed for 2 times in a row, putting on 2 second timeout
+2025-06-25 09:23:43,356 - elastic_transport.transport - WARNING - Retrying request after failure (attempt 1 of 3)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/elastic_transport/_async_transport.py", line 264, in perform_request
+    resp = await node.perform_request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/elastic_transport/_node/_http_aiohttp.py", line 228, in perform_request
+    raise err from None
+elastic_transport.ConnectionError: Connection error caused by: ClientConnectorError(Cannot connect to host elasticsearch:9200 ssl:default [Connection refused])
+2025-06-25 09:23:43,361 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:N/A duration:0.002s]
+2025-06-25 09:23:43,362 - elastic_transport.node_pool - WARNING - Node <AiohttpHttpNode(http://elasticsearch:9200)> has failed for 3 times in a row, putting on 4 second timeout
+2025-06-25 09:23:43,363 - elastic_transport.transport - WARNING - Retrying request after failure (attempt 2 of 3)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/elastic_transport/_async_transport.py", line 264, in perform_request
+    resp = await node.perform_request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/elastic_transport/_node/_http_aiohttp.py", line 228, in perform_request
+    raise err from None
+elastic_transport.ConnectionError: Connection error caused by: ClientConnectorError(Cannot connect to host elasticsearch:9200 ssl:default [Connection refused])
+2025-06-25 09:23:43,456 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:N/A duration:0.092s]
+2025-06-25 09:23:43,457 - elastic_transport.node_pool - WARNING - Node <AiohttpHttpNode(http://elasticsearch:9200)> has failed for 4 times in a row, putting on 8 second timeout
+2025-06-25 09:23:43,458 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T09:23:43.458225Z"}
+2025-06-25 09:23:44,058 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T09:23:44.057806Z"}
+2025-06-25 09:23:44,060 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T09:23:44.060764Z"}
+2025-06-25 09:23:44,061 - app.core.database - WARNING - {"event": "Failed to initialize services: {'neo4j'}", "logger": "app.core.database", "level": "warning", "timestamp": "2025-06-25T09:23:44.061670Z"}
+2025-06-25 09:23:44,062 - main - INFO - LLM Service startup complete
