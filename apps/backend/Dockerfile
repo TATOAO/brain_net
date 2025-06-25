@@ -32,7 +32,15 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install uv for faster package installation
-RUN pip install --no-cache-dir uv
+RUN if [ -n "$PYPI_INDEX_URL" ]; then \
+        if [ -n "$PYPI_TRUSTED_HOST" ]; then \
+            pip install --no-cache-dir uv -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
+        else \
+            pip install --no-cache-dir uv -i $PYPI_INDEX_URL; \
+        fi; \
+    else \
+        pip install --no-cache-dir uv; \
+    fi
 
 # Copy requirements first for better caching
 COPY apps/backend/requirements.txt .
