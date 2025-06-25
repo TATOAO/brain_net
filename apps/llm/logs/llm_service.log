@@ -1,2 +1,148 @@
 2025-06-24 14:00:47,224 - main - INFO - Starting Brain_Net LLM Service...
 2025-06-24 14:00:47,224 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-24T06:00:47.224604Z"}
+2025-06-25 06:41:42,808 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 06:41:42,809 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 06:41:42,810 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://otel-collector:4317
+2025-06-25 06:41:43,166 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 06:41:43,167 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://otel-collector:4317
+2025-06-25 06:41:43,243 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 06:41:43,244 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 06:41:43,245 - app.core.telemetry - ERROR - Failed to initialize OpenTelemetry: BaseInstrumentor.instrument() missing 1 required positional argument: 'self'
+2025-06-25 06:41:43,246 - app.core.telemetry - WARNING - Continuing without OpenTelemetry
+2025-06-25 06:41:43,250 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:41:43.250835Z"}
+2025-06-25 06:41:43,378 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:41:43.378771Z"}
+2025-06-25 06:41:43,606 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.342s]
+2025-06-25 06:41:43,608 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:41:43.607884Z"}
+2025-06-25 06:41:43,612 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:41:43.612309Z"}
+2025-06-25 06:41:44,200 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:41:44.200088Z"}
+2025-06-25 06:41:45,926 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:41:45.925874Z"}
+2025-06-25 06:41:45,927 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:41:45.927595Z"}
+2025-06-25 06:41:45,929 - main - INFO - LLM Service startup complete
+2025-06-25 06:44:11,568 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 06:44:11,580 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:44:11.577194Z"}
+2025-06-25 06:44:11,663 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:44:11.663039Z"}
+2025-06-25 06:44:11,729 - main - INFO - LLM Service shutdown complete
+2025-06-25 06:44:26,486 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 06:44:26,488 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 06:44:26,490 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://otel-collector:4317
+2025-06-25 06:44:26,792 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 06:44:26,793 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://otel-collector:4317
+2025-06-25 06:44:26,838 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 06:44:26,839 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 06:44:26,840 - app.core.telemetry - ERROR - Failed to initialize OpenTelemetry: BaseInstrumentor.instrument() missing 1 required positional argument: 'self'
+2025-06-25 06:44:26,841 - app.core.telemetry - WARNING - Continuing without OpenTelemetry
+2025-06-25 06:44:26,844 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:44:26.844031Z"}
+2025-06-25 06:44:26,925 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:44:26.925656Z"}
+2025-06-25 06:44:26,969 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.105s]
+2025-06-25 06:44:26,970 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:44:26.970125Z"}
+2025-06-25 06:44:27,080 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:44:27.080749Z"}
+2025-06-25 06:44:27,439 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:44:27.438744Z"}
+2025-06-25 06:44:27,445 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:44:27.444720Z"}
+2025-06-25 06:44:27,447 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T06:44:27.446650Z"}
+2025-06-25 06:44:27,447 - main - INFO - LLM Service startup complete
+2025-06-25 07:31:13,328 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 07:31:13,405 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:13.398878Z"}
+2025-06-25 07:31:13,713 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:13.713606Z"}
+2025-06-25 07:31:13,716 - main - INFO - LLM Service shutdown complete
+2025-06-25 07:31:31,002 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 07:31:31,003 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 07:31:31,004 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://otel-collector:4317
+2025-06-25 07:31:31,180 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 07:31:31,180 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://otel-collector:4317
+2025-06-25 07:31:31,207 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 07:31:31,207 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 07:31:31,411 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 07:31:31,411 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 07:31:31,412 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:31.412233Z"}
+2025-06-25 07:31:31,459 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:31.459502Z"}
+2025-06-25 07:31:31,478 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.048s]
+2025-06-25 07:31:31,479 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:31.479758Z"}
+2025-06-25 07:31:31,482 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:31.481941Z"}
+2025-06-25 07:31:31,889 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:31.889670Z"}
+2025-06-25 07:31:31,916 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:31.915858Z"}
+2025-06-25 07:31:31,916 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:31.916765Z"}
+2025-06-25 07:31:31,918 - main - INFO - LLM Service startup complete
+2025-06-25 07:31:36,220 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 1s.
+2025-06-25 07:31:37,224 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 2s.
+2025-06-25 07:31:39,259 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 4s.
+2025-06-25 07:31:41,923 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 07:31:42,109 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:42.109306Z"}
+2025-06-25 07:31:42,327 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:31:42.327339Z"}
+2025-06-25 07:31:42,328 - main - INFO - LLM Service shutdown complete
+2025-06-25 07:31:43,264 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 8s.
+2025-06-25 07:31:51,267 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 16s.
+2025-06-25 07:32:07,270 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 32s.
+2025-06-25 07:32:54,550 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 07:32:54,550 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 07:32:54,551 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://otel-collector:4317
+2025-06-25 07:32:54,741 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 07:32:54,743 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://otel-collector:4317
+2025-06-25 07:32:54,794 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 07:32:54,796 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 07:32:55,006 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 07:32:55,006 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 07:32:55,010 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:32:55.009828Z"}
+2025-06-25 07:32:55,055 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:32:55.055196Z"}
+2025-06-25 07:32:55,068 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:32:55.068604Z"}
+2025-06-25 07:32:55,219 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.193s]
+2025-06-25 07:32:55,221 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:32:55.221239Z"}
+2025-06-25 07:32:55,667 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:32:55.667741Z"}
+2025-06-25 07:32:55,675 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:32:55.675490Z"}
+2025-06-25 07:32:55,679 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:32:55.679165Z"}
+2025-06-25 07:32:55,681 - main - INFO - LLM Service startup complete
+2025-06-25 07:32:59,756 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 1s.
+2025-06-25 07:33:00,757 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 2s.
+2025-06-25 07:33:02,761 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 4s.
+2025-06-25 07:33:06,765 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 8s.
+2025-06-25 07:33:14,767 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 16s.
+2025-06-25 07:33:30,771 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 32s.
+2025-06-25 07:34:44,538 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 07:34:44,540 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:34:44.539789Z"}
+2025-06-25 07:34:44,559 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:34:44.559140Z"}
+2025-06-25 07:34:44,559 - main - INFO - LLM Service shutdown complete
+2025-06-25 07:34:51,973 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 07:34:51,975 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 07:34:51,976 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://otel-collector:4317
+2025-06-25 07:34:52,107 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 07:34:52,107 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://otel-collector:4317
+2025-06-25 07:34:52,139 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 07:34:52,140 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 07:34:52,598 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 07:34:52,599 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 07:34:52,601 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:34:52.601132Z"}
+2025-06-25 07:34:52,630 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:34:52.630425Z"}
+2025-06-25 07:34:52,646 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.034s]
+2025-06-25 07:34:52,646 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:34:52.646820Z"}
+2025-06-25 07:34:52,706 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:34:52.706838Z"}
+2025-06-25 07:34:52,736 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:34:52.736659Z"}
+2025-06-25 07:34:53,151 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:34:53.150901Z"}
+2025-06-25 07:34:53,158 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:34:53.158036Z"}
+2025-06-25 07:34:53,161 - main - INFO - LLM Service startup complete
+2025-06-25 07:34:57,124 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 1s.
+2025-06-25 07:34:58,128 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 2s.
+2025-06-25 07:35:00,132 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 4s.
+2025-06-25 07:35:04,133 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 8s.
+2025-06-25 07:35:12,136 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 16s.
+2025-06-25 07:35:28,138 - opentelemetry.exporter.otlp.proto.grpc.exporter - WARNING - Transient error StatusCode.UNAVAILABLE encountered while exporting traces to otel-collector:4317, retrying in 32s.
+2025-06-25 07:35:34,479 - main - INFO - Shutting down Brain_Net LLM Service...
+2025-06-25 07:35:34,482 - app.core.database - INFO - {"event": "Closing all database connections...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:35:34.482093Z"}
+2025-06-25 07:35:34,495 - app.core.database - INFO - {"event": "All database connections closed", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:35:34.495358Z"}
+2025-06-25 07:35:34,496 - main - INFO - LLM Service shutdown complete
+2025-06-25 07:36:03,581 - main - INFO - Starting Brain_Net LLM Service...
+2025-06-25 07:36:03,581 - app.core.telemetry - INFO - Initializing OpenTelemetry for Brain_Net LLM Service...
+2025-06-25 07:36:03,586 - app.core.telemetry - INFO - Setting up tracing with endpoint: http://jaeger:4317
+2025-06-25 07:36:03,923 - app.core.telemetry - INFO - Tracing setup completed
+2025-06-25 07:36:03,925 - app.core.telemetry - INFO - Setting up metrics with endpoint: http://jaeger:4317
+2025-06-25 07:36:03,976 - app.core.telemetry - INFO - Metrics setup completed
+2025-06-25 07:36:03,979 - app.core.telemetry - INFO - Setting up automatic instrumentation...
+2025-06-25 07:36:04,438 - app.core.telemetry - INFO - Automatic instrumentation setup completed
+2025-06-25 07:36:04,440 - app.core.telemetry - INFO - OpenTelemetry initialization completed successfully
+2025-06-25 07:36:04,444 - app.core.database - INFO - {"event": "Initializing database connections for LLM service...", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:36:04.443901Z"}
+2025-06-25 07:36:04,494 - app.core.database - INFO - {"event": "MinIO connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:36:04.493900Z"}
+2025-06-25 07:36:04,518 - app.core.database - INFO - {"event": "Redis connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:36:04.518531Z"}
+2025-06-25 07:36:04,522 - elastic_transport.transport - INFO - HEAD http://elasticsearch:9200/ [status:200 duration:0.060s]
+2025-06-25 07:36:04,523 - app.core.database - INFO - {"event": "Elasticsearch connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:36:04.523496Z"}
+2025-06-25 07:36:04,700 - app.core.database - INFO - {"event": "Neo4j connection established successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:36:04.700085Z"}
+2025-06-25 07:36:05,125 - app.core.database - INFO - {"event": "PostgreSQL connection pool created successfully", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:36:05.125168Z"}
+2025-06-25 07:36:05,128 - app.core.database - INFO - {"event": "Database initialization complete. Available services: ['postgres', 'elasticsearch', 'neo4j', 'redis', 'minio']", "logger": "app.core.database", "level": "info", "timestamp": "2025-06-25T07:36:05.127950Z"}
+2025-06-25 07:36:05,135 - main - INFO - LLM Service startup complete

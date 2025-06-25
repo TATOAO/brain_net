@@ -38,7 +38,7 @@ langsmith
 # Vector Stores and Embeddings
 chromadb==0.4.22
 pinecone-client==3.0.0
-sentence-transformers==2.2.2
+# sentence-transformers==2.2.2
 faiss-cpu==1.7.4
 
 # Document Processing
@@ -55,7 +55,7 @@ pytesseract==0.3.10
 tiktoken==0.5.2
 spacy==3.7.2
 nltk==3.8.1
-transformers==4.36.2
+# transformers==4.36.2
 
 # Numerical Computing
 numpy==1.24.4

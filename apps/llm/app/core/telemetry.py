@@ -46,7 +46,8 @@ def setup_tracing(
 ) -> None:
     """Setup OpenTelemetry tracing."""
     if not otlp_endpoint:
-        otlp_endpoint = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://otel-collector:4317")
+        # Try to connect to otel-collector first, fallback to Jaeger directly
+        otlp_endpoint = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://jaeger:4317")
     
     logger.info(f"Setting up tracing with endpoint: {otlp_endpoint}")
     
@@ -76,7 +77,8 @@ def setup_metrics(
 ) -> None:
     """Setup OpenTelemetry metrics."""
     if not otlp_endpoint:
-        otlp_endpoint = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://otel-collector:4317")
+        # Try to connect to otel-collector first, fallback to Jaeger directly
+        otlp_endpoint = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://jaeger:4317")
     
     logger.info(f"Setting up metrics with endpoint: {otlp_endpoint}")
     
@@ -110,24 +112,52 @@ def setup_instrumentation() -> None:
     """Setup automatic instrumentation for common libraries."""
     logger.info("Setting up automatic instrumentation...")
     
-    # FastAPI instrumentation
-    FastAPIInstrumentor.instrument()
-    
-    # Database instrumentation
-    SQLAlchemyInstrumentor.instrument()
-    AsyncPGInstrumentor.instrument()
-    
-    # Cache instrumentation
-    RedisInstrumentor.instrument()
-    
-    # HTTP client instrumentation
-    HTTPXClientInstrumentor.instrument()
-    RequestsInstrumentor.instrument()
-    
-    # Logging instrumentation
-    LoggingInstrumentor.instrument(set_logging_format=True)
-    
-    logger.info("Automatic instrumentation setup completed")
+    try:
+        # FastAPI instrumentation
+        try:
+            FastAPIInstrumentor().instrument()
+        except Exception as e:
+            logger.warning(f"FastAPI instrumentation failed: {e}")
+        
+        # Database instrumentation
+        try:
+            SQLAlchemyInstrumentor().instrument()
+        except Exception as e:
+            logger.warning(f"SQLAlchemy instrumentation failed: {e}")
+        
+        try:
+            AsyncPGInstrumentor().instrument()
+        except Exception as e:
+            logger.warning(f"AsyncPG instrumentation failed: {e}")
+        
+        # Cache instrumentation
+        try:
+            RedisInstrumentor().instrument()
+        except Exception as e:
+            logger.warning(f"Redis instrumentation failed: {e}")
+        
+        # HTTP client instrumentation
+        try:
+            HTTPXClientInstrumentor().instrument()
+        except Exception as e:
+            logger.warning(f"HTTPX instrumentation failed: {e}")
+            
+        try:
+            RequestsInstrumentor().instrument()
+        except Exception as e:
+            logger.warning(f"Requests instrumentation failed: {e}")
+        
+        # Logging instrumentation
+        try:
+            LoggingInstrumentor().instrument(set_logging_format=True)
+        except Exception as e:
+            logger.warning(f"Logging instrumentation failed: {e}")
+        
+        logger.info("Automatic instrumentation setup completed")
+        
+    except Exception as e:
+        logger.error(f"Failed to setup instrumentation: {e}")
+        raise
 
 
 def initialize_telemetry() -> None:

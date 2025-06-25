@@ -33,7 +33,7 @@ async def lifespan(app: FastAPI):
     logger.info("Starting Brain_Net Backend Application...")
     
     # Initialize OpenTelemetry first
-    initialize_telemetry()
+    initialize_telemetry(app)
     
     # Initialize database connections
     db_manager = DatabaseManager()

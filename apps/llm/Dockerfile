@@ -67,26 +67,15 @@ ENV PATH="/home/llm/.local/bin:${PATH}"
 COPY --chown=llm:llm apps/llm/ /app/
 COPY --chown=llm:llm apps/shared/ /app/apps/shared/
 
-# Create startup script
-RUN echo '#!/bin/bash\n\
-set -e\n\
-\n\
-# Create logs directory if it doesn'\''t exist\n\
-mkdir -p /app/logs\n\
-\n\
-# Download spacy model if needed\n\
-python -c "import spacy; spacy.cli.download('\''en_core_web_sm'\'')" 2>/dev/null || true\n\
-\n\
-# Start the application\n\
-exec uvicorn main:app --host 0.0.0.0 --port 8000 --reload\n\
-' > /app/start.sh && chmod +x /app/start.sh
+# Make start script executable (ensure ownership and permissions)
+RUN chown llm:llm /app/start.sh && chmod +x /app/start.sh
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:8001/health || exit 1
 
 # Expose port
-EXPOSE 8000
+EXPOSE 8001
 
 # Set default command
 CMD ["/app/start.sh"] 

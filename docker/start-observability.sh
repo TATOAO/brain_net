@@ -24,7 +24,7 @@ echo "=================================="
 
 # Function to check if a service is running
 check_service() {
-    if docker-compose --profile observability ps "$1" | grep -q "Up"; then
+    if docker-compose -f docker/docker-compose.yml --profile observability ps "$1" | grep -q "Up"; then
         echo -e "${GREEN}✓ $1 is running${NC}"
         return 0
     else
@@ -55,7 +55,7 @@ show_urls() {
 case "$1" in
     "start"|"up")
         echo -e "${BLUE}🚀 Starting observability stack...${NC}"
-        docker-compose --profile observability up -d otel-collector jaeger
+        docker-compose -f docker/docker-compose.yml --profile observability up -d otel-collector jaeger
         
         echo -e "\n${BLUE}⏳ Waiting for services to be ready...${NC}"
         sleep 10
@@ -69,12 +69,12 @@ case "$1" in
         
     "stop"|"down")
         echo -e "${BLUE}🛑 Stopping observability stack...${NC}"
-        docker-compose --profile observability stop otel-collector jaeger
+        docker-compose -f docker/docker-compose.yml --profile observability stop otel-collector jaeger
         ;;
         
     "restart")
         echo -e "${BLUE}🔄 Restarting observability stack...${NC}"
-        docker-compose --profile observability restart otel-collector jaeger
+        docker-compose -f docker/docker-compose.yml --profile observability restart otel-collector jaeger
         
         echo -e "\n${BLUE}⏳ Waiting for services to be ready...${NC}"
         sleep 10
@@ -98,7 +98,7 @@ case "$1" in
     "logs")
         service=${2:-"otel-collector"}
         echo -e "${BLUE}📋 Showing logs for $service...${NC}"
-        docker-compose --profile observability logs -f "$service"
+        docker-compose -f docker/docker-compose.yml --profile observability logs -f "$service"
         ;;
         
     "clean")
@@ -106,7 +106,7 @@ case "$1" in
         read -r response
         if [[ "$response" =~ ^[Yy]$ ]]; then
             echo -e "${BLUE}🧹 Cleaning up observability stack...${NC}"
-            docker-compose --profile observability down -v
+            docker-compose -f docker/docker-compose.yml --profile observability down -v
             docker volume rm docker_jaeger_data 2>/dev/null || true
             echo -e "${GREEN}✓ Cleanup complete${NC}"
         else

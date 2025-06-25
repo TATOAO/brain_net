@@ -1,3 +1,4 @@
+# bash ./tests/health_checks.sh
 echo "Checking health..."
 curl -X GET http://localhost:8000/health
 
