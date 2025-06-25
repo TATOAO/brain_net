@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useAuth } from '@/app/contexts/AuthContext'
 import Header from '@/app/components/Header'
@@ -13,7 +13,9 @@ import {
   RefreshCw,
   MessageSquare,
   FileText,
-  Hash
+  Hash,
+  List,
+  Download
 } from 'lucide-react'
 
 interface UploadResponse {
@@ -34,6 +36,20 @@ interface ProcessResponse {
   processing: string
 }
 
+interface UserFile {
+  id: number
+  file_hash: string
+  original_filename: string
+  file_size: number
+  content_type: string
+  uploaded_at: string
+}
+
+interface FileListResponse {
+  files: UserFile[]
+  total_count: number
+}
+
 export default function DocQA() {
   const { user, isLoggedIn } = useAuth()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -42,6 +58,22 @@ export default function DocQA() {
   const [uploadResult, setUploadResult] = useState<UploadResponse | null>(null)
   const [processResult, setProcessResult] = useState<ProcessResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [recentFiles, setRecentFiles] = useState<UserFile[]>([])
+  const [loadingFiles, setLoadingFiles] = useState(false)
+
+  const loadRecentFiles = async () => {
+    setLoadingFiles(true)
+    try {
+      const response = await axios.get<FileListResponse>('/api/backend/upload/my-files', {
+        params: { limit: 5, offset: 0 }
+      })
+      setRecentFiles(response.data.files)
+    } catch (err: any) {
+      console.error('Failed to load recent files:', err)
+    } finally {
+      setLoadingFiles(false)
+    }
+  }
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -52,6 +84,38 @@ export default function DocQA() {
       setError(null)
     }
   }
+
+  const downloadFile = async (fileHash: string, filename: string) => {
+    try {
+      const response = await axios.get(`/api/backend/upload/download/${fileHash}`, {
+        responseType: 'blob'
+      })
+
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', filename)
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      window.URL.revokeObjectURL(url)
+    } catch (err: any) {
+      setError(`Download failed: ${err.response?.data?.detail || err.message}`)
+    }
+  }
+
+  // Load recent files on component mount and after successful upload
+  useEffect(() => {
+    if (isLoggedIn) {
+      loadRecentFiles()
+    }
+  }, [isLoggedIn])
+
+  useEffect(() => {
+    if (uploadResult) {
+      loadRecentFiles() // Refresh file list after upload
+    }
+  }, [uploadResult])
 
   const handleUpload = async () => {
     if (!selectedFile) {
@@ -311,6 +375,74 @@ export default function DocQA() {
               )}
             </div>
           </div>
+        </div>
+
+        {/* Recent Files Section */}
+        <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold flex items-center">
+              <List className="w-5 h-5 mr-2" />
+              Recent Files
+            </h2>
+            <button
+              onClick={loadRecentFiles}
+              disabled={loadingFiles}
+              className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
+            >
+              <RefreshCw className={`w-4 h-4 mr-1 ${loadingFiles ? 'animate-spin' : ''}`} />
+              Refresh
+            </button>
+          </div>
+
+          {loadingFiles ? (
+            <div className="text-center py-4">
+              <RefreshCw className="w-6 h-6 animate-spin text-blue-600 mx-auto mb-2" />
+              <p className="text-gray-600">Loading files...</p>
+            </div>
+          ) : recentFiles.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              <File className="w-12 h-12 mx-auto mb-2 text-gray-300" />
+              <p>No files uploaded yet</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {recentFiles.map((file) => (
+                <div key={file.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <FileText className="w-5 h-5 text-blue-500" />
+                    <div>
+                      <div className="font-medium text-sm">{file.original_filename}</div>
+                      <div className="text-xs text-gray-500">
+                        {formatFileSize(file.file_size)} • {new Date(file.uploaded_at).toLocaleDateString()}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => downloadFile(file.file_hash, file.original_filename)}
+                      className="text-blue-600 hover:text-blue-800 p-1"
+                      title="Download file"
+                    >
+                      <Download className="w-4 h-4" />
+                    </button>
+                    <span className="text-xs text-gray-400 font-mono">
+                      {file.file_hash.substring(0, 8)}...
+                    </span>
+                  </div>
+                </div>
+              ))}
+              {recentFiles.length >= 5 && (
+                <div className="text-center">
+                  <a
+                    href="/files"
+                    className="text-sm text-blue-600 hover:text-blue-800"
+                  >
+                    View all files →
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Information Section */}

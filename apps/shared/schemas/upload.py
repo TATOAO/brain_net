@@ -2,7 +2,7 @@
 Schemas for file upload functionality
 """
 
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -30,4 +30,20 @@ class FileInfoResponse(BaseModel):
 class FileProcessRequest(BaseModel):
     """Request schema for file processing by hash."""
     file_hash: str
-    filename: Optional[str] = None 
+    filename: Optional[str] = None
+
+
+class UserFileResponse(BaseModel):
+    """Response schema for user file information."""
+    id: int
+    file_hash: str
+    original_filename: str
+    file_size: int
+    content_type: str
+    uploaded_at: Optional[datetime]
+
+
+class UserFileListResponse(BaseModel):
+    """Response schema for listing user files."""
+    files: List[UserFileResponse]
+    total_count: int 

@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/app/contexts/AuthContext'
-import { LogOut, User, LogIn, UserPlus, Activity } from 'lucide-react'
+import { LogOut, User, Upload, FileText, Home } from 'lucide-react'
 
 export default function Header() {
   const { user, logout, isLoggedIn } = useAuth()
@@ -17,52 +17,79 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Activity className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">Brain Net</span>
-            </Link>
-          </div>
+    <header className="bg-white shadow-sm border-b">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">BN</span>
+            </div>
+            <span className="text-xl font-bold text-gray-900">Brain_Net</span>
+          </Link>
 
-          <nav className="flex items-center space-x-4">
+          {/* Navigation */}
+          {isLoggedIn && (
+            <nav className="flex items-center space-x-6">
+              <Link
+                href="/"
+                className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                <Home className="w-4 h-4" />
+                <span>Home</span>
+              </Link>
+              <Link
+                href="/docQA"
+                className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                <Upload className="w-4 h-4" />
+                <span>Upload & Process</span>
+              </Link>
+              <Link
+                href="/files"
+                className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                <FileText className="w-4 h-4" />
+                <span>My Files</span>
+              </Link>
+            </nav>
+          )}
+
+          {/* User Menu */}
+          <div className="flex items-center space-x-4">
             {isLoggedIn ? (
               <>
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <User className="h-4 w-4" />
-                  <span>Welcome, {user?.username || user?.email}</span>
+                <div className="flex items-center space-x-2">
+                  <User className="w-5 h-5 text-gray-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    {user?.full_name || user?.username || user?.email}
+                  </span>
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center space-x-1 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                  className="flex items-center space-x-1 text-gray-600 hover:text-red-600 transition-colors"
                 >
-                  <LogOut className="h-4 w-4" />
+                  <LogOut className="w-4 h-4" />
                   <span>Logout</span>
                 </button>
               </>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-4">
                 <Link
                   href="/login"
-                  className="flex items-center space-x-1 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                  className="text-gray-600 hover:text-blue-600 transition-colors"
                 >
-                  <LogIn className="h-4 w-4" />
-                  <span>Login</span>
+                  Login
                 </Link>
                 <Link
                   href="/signup"
-                  className="flex items-center space-x-1 px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  <UserPlus className="h-4 w-4" />
-                  <span>Sign Up</span>
+                  Sign Up
                 </Link>
               </div>
             )}
-          </nav>
+          </div>
         </div>
       </div>
     </header>

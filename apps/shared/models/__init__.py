@@ -1,12 +1,17 @@
 """
-Database models using SQLModel.
+Shared models for the Brain_Net application.
 """
 
-from .user import User, UserCreate, UserUpdate, UserRead
+from .user import User, UserBase, UserCreate, UserUpdate, UserRead
+from .file import UserFile, UserFileRead, UserFileList
 
 __all__ = [
     "User",
-    "UserCreate", 
+    "UserBase", 
+    "UserCreate",
     "UserUpdate",
     "UserRead",
+    "UserFile",
+    "UserFileRead", 
+    "UserFileList"
 ] 

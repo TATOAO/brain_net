@@ -49,7 +49,7 @@ class MinIOService:
             stat = self.client.stat_object(self.bucket_name, file_hash)
             return {
                 "file_hash": file_hash,
-                "original_filename": stat.metadata.get("original_filename", "unknown"),
+                "original_filename": stat.metadata.get("original_filename", "unknown"),  # Fallback for legacy files
                 "file_size": int(stat.metadata.get("file_size", stat.size)),
                 "upload_time": stat.metadata.get("upload_time"),
                 "content_type": stat.content_type,
