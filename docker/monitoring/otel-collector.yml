@@ -39,7 +39,7 @@ processors:
   resource:
     attributes:
       - key: environment
-        value: ${ENVIRONMENT:-development}
+        value: development
         action: upsert
       - key: service.namespace
         value: brain_net
@@ -52,9 +52,9 @@ processors:
     check_interval: 5s
 
 exporters:
-  # Export traces to Jaeger
-  jaeger:
-    endpoint: jaeger:14250
+  # Export traces to Jaeger via OTLP
+  otlp/jaeger:
+    endpoint: jaeger:4317
     tls:
       insecure: true
 
@@ -63,17 +63,11 @@ exporters:
     endpoint: "0.0.0.0:8889"
     namespace: brain_net
     const_labels:
-      environment: ${ENVIRONMENT:-development}
+      environment: development
 
   # Export logs to stdout for debugging
-  logging:
-    loglevel: info
-
-  # Optional: Export to OTLP endpoint for other backends
-  otlp/jaeger:
-    endpoint: jaeger:4317
-    tls:
-      insecure: true
+  debug:
+    verbosity: normal
 
 extensions:
   health_check:
@@ -91,22 +85,22 @@ service:
     traces:
       receivers: [otlp, jaeger, zipkin]
       processors: [memory_limiter, resource, batch]
-      exporters: [jaeger, logging]
+      exporters: [otlp/jaeger, debug]
     
     # Metrics pipeline  
     metrics:
       receivers: [otlp]
       processors: [memory_limiter, resource, batch]
-      exporters: [prometheus, logging]
+      exporters: [prometheus, debug]
     
     # Logs pipeline
     logs:
       receivers: [otlp]
       processors: [memory_limiter, resource, batch]
-      exporters: [logging]
+      exporters: [debug]
 
   telemetry:
     logs:
       level: info
     metrics:
-      address: 0.0.0.0:8888 
+      level: basic 
