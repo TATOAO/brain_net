@@ -119,9 +119,10 @@ async def process_document(
     
     try:
         # Make request to LLM service
+        llm_url = f"{settings.LLM_SERVICE_URL}/api/v1/documents/process-by-hash"
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "http://localhost:8001/api/v1/documents/process-by-hash",
+                llm_url,
                 json={
                     "file_hash": request.file_hash,
                     "filename": request.filename or file_info["original_filename"],
