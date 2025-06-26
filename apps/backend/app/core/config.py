@@ -60,6 +60,9 @@ class Settings(BaseSettings):
     LLM_TEMPERATURE: float = 0.7
     MAX_TOKENS: int = 2048
     
+    # LLM Service Settings
+    LLM_SERVICE_URL: str = "http://llm:8001"
+    
     # Document Processing Settings
     CHUNK_SIZE: int = 1000
     CHUNK_OVERLAP: int = 200

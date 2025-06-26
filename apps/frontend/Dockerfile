@@ -1,6 +1,9 @@
 # Use Node.js 18 alpine image
 FROM node:18-alpine
 
+# Accept build arguments for npm registry mirror
+ARG NPM_REGISTRY=""
+
 # Set environment variables
 ENV NODE_ENV=development
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -8,15 +11,23 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # Set work directory
 WORKDIR /app
 
-# Install dependencies
-RUN npm install -g pnpm
+# Install dependencies with configurable registry
+RUN if [ -n "$NPM_REGISTRY" ]; then \
+        npm install -g pnpm --registry=$NPM_REGISTRY; \
+    else \
+        npm install -g pnpm; \
+    fi
 
 # Copy package files
 COPY package*.json ./
 COPY pnpm-lock.yaml* ./
 
-# Install dependencies
-RUN pnpm install
+# Install dependencies with configurable registry
+RUN if [ -n "$NPM_REGISTRY" ]; then \
+        pnpm install --registry=$NPM_REGISTRY; \
+    else \
+        pnpm install; \
+    fi
 
 # Copy application code (excluding node_modules)
 COPY app ./app
