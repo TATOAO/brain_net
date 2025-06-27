@@ -112,3 +112,7 @@ passlib[bcrypt]==1.7.4
 # Performance
 asyncio-throttle==1.0.2
 aiofiles==23.2.1 
+
+
+# uv pip install git+https://github.com/TATOAO/doc_visual_parsor.git
+git+https://github.com/TATOAO/doc_visual_parsor.git
