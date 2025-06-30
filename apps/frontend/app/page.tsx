@@ -59,6 +59,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
+  const [documentCount, setDocumentCount] = useState<number | null>(null)
 
   const fetchHealthData = async () => {
     try {
@@ -85,12 +86,37 @@ export default function Home() {
     }
   }
 
+  const fetchDocumentCount = async () => {
+    if (!isLoggedIn || !user) return
+    
+    try {
+      console.log('Fetching document count for user:', user.username)
+      const response = await axios.get('/api/backend/upload/my-files', {
+        params: {
+          limit: 1,  // We only need the count, not the actual files
+          offset: 0
+        }
+      })
+      console.log('Document count response:', response.data)
+      setDocumentCount(response.data.total_count)
+    } catch (err: any) {
+      console.error('Error fetching document count:', err)
+      setDocumentCount(0) // Set to 0 on error
+    }
+  }
+
   useEffect(() => {
     fetchHealthData()
     // Refresh every 10 seconds
     const interval = setInterval(fetchHealthData, 10000)
     return () => clearInterval(interval)
   }, [])
+
+  useEffect(() => {
+    if (isLoggedIn && !authLoading) {
+      fetchDocumentCount()
+    }
+  }, [isLoggedIn, authLoading])
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -243,7 +269,9 @@ export default function Home() {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">Documents</p>
-                  <p className="text-2xl font-bold text-gray-900">--</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {documentCount !== null ? documentCount : '--'}
+                  </p>
                 </div>
               </div>
             </div>
