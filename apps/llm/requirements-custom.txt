@@ -1,2 +1,3 @@
 # Custom and experimental packages that change frequently
-git+https://github.com/TATOAO/doc_visual_parsor.git 
+# git+ssh://github.com/TATOAO/doc_visual_parsor.git
+git+https://github.com/TATOAO/doc_visual_parsor.git
