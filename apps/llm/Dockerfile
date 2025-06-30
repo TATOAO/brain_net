@@ -49,18 +49,30 @@ RUN if [ -n "$PYPI_INDEX_URL" ]; then \
         pip install --no-cache-dir uv; \
     fi
 
-# Copy requirements first for better caching
-COPY apps/llm/requirements.txt /app/
-
-# Install Python dependencies as root
-RUN if [ -n "$PYPI_INDEX_URL" ]; then \
+# Copy and install stable dependencies first (better caching)
+COPY apps/llm/requirements-base.txt /app/
+RUN --mount=type=cache,target=/root/.cache/uv \
+    if [ -n "$PYPI_INDEX_URL" ]; then \
         if [ -n "$PYPI_TRUSTED_HOST" ]; then \
-            uv pip install --system --no-cache-dir -r requirements.txt -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
+            uv pip install --system -r requirements-base.txt -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
         else \
-            uv pip install --system --no-cache-dir -r requirements.txt -i $PYPI_INDEX_URL; \
+            uv pip install --system -r requirements-base.txt -i $PYPI_INDEX_URL; \
         fi; \
     else \
-        uv pip install --system --no-cache-dir -r requirements.txt; \
+        uv pip install --system -r requirements-base.txt; \
+    fi
+
+# Copy and install custom/changing dependencies (separate layer)
+COPY apps/llm/requirements-custom.txt /app/
+RUN --mount=type=cache,target=/root/.cache/uv \
+    if [ -n "$PYPI_INDEX_URL" ]; then \
+        if [ -n "$PYPI_TRUSTED_HOST" ]; then \
+            uv pip install --system -r requirements-custom.txt -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
+        else \
+            uv pip install --system -r requirements-custom.txt -i $PYPI_INDEX_URL; \
+        fi; \
+    else \
+        uv pip install --system -r requirements-custom.txt; \
     fi
 
 # Create directories

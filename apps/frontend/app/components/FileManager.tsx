@@ -11,8 +11,10 @@ import {
   FileText,
   Hash,
   Calendar,
-  HardDrive
+  HardDrive,
+  Eye
 } from 'lucide-react'
+import DocumentViewer from './DocumentViewer'
 
 interface UserFile {
   id: number
@@ -34,6 +36,7 @@ export default function FileManager() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [totalCount, setTotalCount] = useState(0)
+  const [viewingFile, setViewingFile] = useState<UserFile | null>(null)
 
   const loadFiles = async () => {
     if (!isLoggedIn) return
@@ -203,6 +206,13 @@ export default function FileManager() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <button
+                          onClick={() => setViewingFile(file)}
+                          className="text-green-600 hover:text-green-900 mr-3"
+                          title="View file"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button
                           onClick={() => downloadFile(file.file_hash, file.original_filename)}
                           className="text-blue-600 hover:text-blue-900 mr-3"
                           title="Download file"
@@ -217,6 +227,17 @@ export default function FileManager() {
             </div>
           </div>
         </>
+      )}
+
+      {/* Document Viewer Modal */}
+      {viewingFile && (
+        <DocumentViewer
+          fileHash={viewingFile.file_hash}
+          filename={viewingFile.original_filename}
+          contentType={viewingFile.content_type}
+          fileSize={viewingFile.file_size}
+          onClose={() => setViewingFile(null)}
+        />
       )}
     </div>
   )

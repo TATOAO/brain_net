@@ -237,6 +237,6 @@ async def test_processors():
     
     print("🎉 All tests completed!")
 
-
+# python -m apps.shared.core.test_processors
 if __name__ == "__main__":
     asyncio.run(test_processors()) 
