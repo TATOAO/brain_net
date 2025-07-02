@@ -7,6 +7,7 @@ from fastapi import UploadFile
 from app.core.database import DatabaseManager
 from app.schemas.rag import RAGRequest, RAGResponse, DocumentSearchRequest, DocumentSearchResponse
 from app.core.logging import LLMLogger
+from apps.shared.core.processor_service import document_processor_service
 
 logger = LLMLogger("rag")
 
@@ -45,8 +46,47 @@ class RAGService:
     
     async def upload_document(self, file: UploadFile, collection_name: str) -> str:
         """Upload and process a document for RAG."""
-        # TODO: Implement document upload and processing
-        return f"doc_{file.filename}"
+        import time
+        
+        # Read file content
+        content = await file.read()
+        await file.seek(0)  # Reset file pointer
+        document_content = content.decode('utf-8', errors='ignore')
+        
+        # Create mock user and file objects for processing
+        class MockUser:
+            def __init__(self, user_id: int = 1):
+                self.id = user_id
+        
+        class MockUserFile:
+            def __init__(self, filename: str, content_type: str, file_size: int):
+                self.id = int(time.time())  # Use timestamp as mock ID
+                self.file_hash = f"rag_{collection_name}_{filename}_{file_size}"
+                self.original_filename = filename
+                self.content_type = content_type
+                self.file_size = file_size
+                self.uploaded_at = None
+        
+        user = MockUser()
+        user_file = MockUserFile(file.filename, file.content_type, len(content))
+        
+        # Process document with chunking for RAG
+        chunks = await document_processor_service.chunk_document(
+            user=user,
+            user_file=user_file,
+            document_content=document_content,
+            chunker_id="fixed_size_chunker",
+            chunk_size=512,  # Smaller chunks for RAG
+            overlap=50
+        )
+        
+        # TODO: Store chunks in vector database for retrieval
+        # For now, just return the document ID
+        document_id = f"doc_{user_file.file_hash[:8]}"
+        
+        logger.info(f"Processed document {file.filename} for RAG: {len(chunks)} chunks created")
+        
+        return document_id
     
     async def delete_document(self, document_id: str) -> None:
         """Delete a document from the knowledge base."""

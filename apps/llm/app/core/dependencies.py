@@ -9,6 +9,7 @@ from app.services.agents import AgentService
 from app.services.documents import DocumentService
 from app.services.models import ModelService
 from app.services.health import HealthService
+from app.services.minio_service import MinIOService
 from app.core.database import DatabaseManager
 
 
@@ -54,4 +55,9 @@ def get_model_service(
     db_manager: DatabaseManager = Depends(get_database_manager)
 ) -> ModelService:
     """Get model service instance."""
-    return ModelService(db_manager) 
+    return ModelService(db_manager)
+
+
+def get_minio_service() -> MinIOService:
+    """Get MinIO service instance."""
+    return MinIOService() 
