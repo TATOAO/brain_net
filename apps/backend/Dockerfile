@@ -34,12 +34,12 @@ RUN apt-get update && apt-get install -y \
 # Install uv for faster package installation
 RUN if [ -n "$PYPI_INDEX_URL" ]; then \
         if [ -n "$PYPI_TRUSTED_HOST" ]; then \
-            pip install --no-cache-dir uv -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
+            pip install  uv -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
         else \
-            pip install --no-cache-dir uv -i $PYPI_INDEX_URL; \
+            pip install  uv -i $PYPI_INDEX_URL; \
         fi; \
     else \
-        pip install --no-cache-dir uv; \
+        pip install uv; \
     fi
 
 # Copy requirements first for better caching
@@ -49,16 +49,23 @@ COPY apps/backend/requirements.txt .
 ARG PYPI_INDEX_URL=""
 ARG PYPI_TRUSTED_HOST=""
 
+RUN apt-get update && apt-get install -y git
+
+RUN git config --global http.postBuffer 524288000 && \
+    git config --global http.version HTTP/1.1 && \
+    git config --global http.lowSpeedLimit 0 && \
+    git config --global http.lowSpeedTime 999999
+
 # Install Python dependencies using uv (much faster than pip)
 # Only add -i flag if PYPI_INDEX_URL is provided
 RUN if [ -n "$PYPI_INDEX_URL" ]; then \
         if [ -n "$PYPI_TRUSTED_HOST" ]; then \
-            uv pip install --system --no-cache -r requirements.txt -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
+            uv pip install --system -r requirements.txt -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
         else \
-            uv pip install --system --no-cache -r requirements.txt -i $PYPI_INDEX_URL; \
+            uv pip install --system -r requirements.txt -i $PYPI_INDEX_URL; \
         fi; \
     else \
-        uv pip install --system --no-cache -r requirements.txt; \
+        uv pip install --system -r requirements.txt; \
     fi
 
 # Copy shared models and apps package structure

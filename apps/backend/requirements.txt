@@ -78,3 +78,7 @@ opentelemetry-instrumentation-httpx==0.55b1
 opentelemetry-instrumentation-requests==0.55b1
 opentelemetry-exporter-otlp==1.34.1
 opentelemetry-instrumentation-logging==0.55b1
+
+
+# Processor Pipeline
+git+https://github.com/TATOAO/processor_architecture.git@main
