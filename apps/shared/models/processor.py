@@ -72,8 +72,7 @@ class UserProcessor(SQLModel, table=True):
         sa_column=Column(DateTime(timezone=True), onupdate=func.now())
     )
     
-    # Relationships
-    pipelines: List["UserPipeline"] = Relationship(back_populates="processors")
+    # Note: Pipelines reference processors via processor_sequence JSON field, not direct relationship
 
 
 class UserPipeline(SQLModel, table=True):
@@ -114,8 +113,8 @@ class UserPipeline(SQLModel, table=True):
         sa_column=Column(DateTime(timezone=True), onupdate=func.now())
     )
     
+    # Note: Processors are referenced via processor_sequence JSON field, not direct relationship
     # Relationships
-    processors: List[UserProcessor] = Relationship(back_populates="pipelines")
     executions: List["PipelineExecution"] = Relationship(back_populates="pipeline")
 
 

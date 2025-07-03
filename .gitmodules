@@ -1,0 +1,3 @@
+[submodule "apps/llm"]
+	path = apps/llm
+	url = git@github.com:TATOAO/compact_llm.git

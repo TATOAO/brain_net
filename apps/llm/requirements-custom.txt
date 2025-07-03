@@ -1,4 +1,0 @@
-# Custom and experimental packages that change frequently
-# git+ssh://github.com/TATOAO/doc_visual_parsor.git
-git+https://github.com/TATOAO/doc_visual_parsor.git
-git+https://github.com/TATOAO/processor_architecture.git
