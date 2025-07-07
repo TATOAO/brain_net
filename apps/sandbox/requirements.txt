@@ -1,0 +1,28 @@
+# FastAPI and Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# HTTP Client for backend communication
+httpx==0.25.2
+
+# Environment and Configuration
+pydantic[email]==2.5.0
+python-dotenv==1.0.0
+
+# Utilities for code execution and debugging
+typing-extensions==4.8.0
+python-dateutil==2.8.2
+
+# Basic scientific computing (commonly needed in pipeline code)
+numpy==1.24.4
+
+# Common data processing libraries (for pipeline execution)
+pandas==2.1.4
+json5==0.9.14
+
+# Security and sandboxing
+RestrictedPython==6.0
+
+# Logging and monitoring
+structlog==23.2.0 
