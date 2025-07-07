@@ -48,6 +48,7 @@ COPY apps/backend/requirements.txt .
 # Set default PyPI index URL - can be overridden with build args
 ARG PYPI_INDEX_URL=""
 ARG PYPI_TRUSTED_HOST=""
+ARG GITHUB_TOKEN=""
 
 RUN apt-get update && apt-get install -y git
 
@@ -55,6 +56,12 @@ RUN git config --global http.postBuffer 524288000 && \
     git config --global http.version HTTP/1.1 && \
     git config --global http.lowSpeedLimit 0 && \
     git config --global http.lowSpeedTime 999999
+
+# Configure git credentials if GitHub token is provided
+RUN if [ -n "$GITHUB_TOKEN" ]; then \
+        git config --global credential.helper store && \
+        echo "https://$GITHUB_TOKEN@github.com" > ~/.git-credentials; \
+    fi
 
 # Install Python dependencies using uv (much faster than pip)
 # Only add -i flag if PYPI_INDEX_URL is provided

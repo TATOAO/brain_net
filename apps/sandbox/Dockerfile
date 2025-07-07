@@ -1,4 +1,4 @@
-# Use official Python runtime as base image
+# Use Python 3.11 slim image
 FROM python:3.11-slim
 
 # Set environment variables
@@ -18,28 +18,86 @@ ENV LOG_LEVEL=INFO
 # Set work directory
 WORKDIR /app
 
+# Accept build arguments for mirrors
+ARG APT_MIRROR=""
+ARG APT_SECURITY_MIRROR=""
+
+# Configure APT mirrors if provided
+RUN if [ -n "$APT_MIRROR" ]; then \
+        echo "Configuring APT mirror: $APT_MIRROR"; \
+        echo "deb http://$APT_MIRROR bookworm main" > /etc/apt/sources.list && \
+        echo "deb http://$APT_MIRROR bookworm-updates main" >> /etc/apt/sources.list; \
+        if [ -n "$APT_SECURITY_MIRROR" ]; then \
+            echo "deb http://$APT_SECURITY_MIRROR bookworm-security main" >> /etc/apt/sources.list; \
+        fi; \
+    fi
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential \
+    gcc \
+    g++ \
+    libpq-dev \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user for security
-RUN groupadd -r sandbox && useradd -r -g sandbox -m sandbox
+# Install uv for faster package installation
+RUN if [ -n "$PYPI_INDEX_URL" ]; then \
+        if [ -n "$PYPI_TRUSTED_HOST" ]; then \
+            pip install  uv -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
+        else \
+            pip install  uv -i $PYPI_INDEX_URL; \
+        fi; \
+    else \
+        pip install uv; \
+    fi
 
-# Copy requirements and install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy requirements first for better caching
+COPY apps/sandbox/requirements.txt .
+
+# Set default PyPI index URL - can be overridden with build args
+ARG PYPI_INDEX_URL=""
+ARG PYPI_TRUSTED_HOST=""
+ARG GITHUB_TOKEN=""
+
+RUN apt-get update && apt-get install -y git
+
+RUN git config --global http.postBuffer 524288000 && \
+    git config --global http.version HTTP/1.1 && \
+    git config --global http.lowSpeedLimit 0 && \
+    git config --global http.lowSpeedTime 999999
+
+# Configure git credentials if GitHub token is provided
+RUN if [ -n "$GITHUB_TOKEN" ]; then \
+        git config --global credential.helper store && \
+        echo "https://$GITHUB_TOKEN@github.com" > ~/.git-credentials; \
+    fi
+
+# Install Python dependencies using uv (much faster than pip)
+# Only add -i flag if PYPI_INDEX_URL is provided
+RUN if [ -n "$PYPI_INDEX_URL" ]; then \
+        if [ -n "$PYPI_TRUSTED_HOST" ]; then \
+            uv pip install --system -r requirements.txt -i $PYPI_INDEX_URL --trusted-host $PYPI_TRUSTED_HOST; \
+        else \
+            uv pip install --system -r requirements.txt -i $PYPI_INDEX_URL; \
+        fi; \
+    else \
+        uv pip install --system -r requirements.txt; \
+    fi
+
+# Copy shared models and apps package structure
+COPY apps/__init__.py /app/apps/__init__.py
+COPY apps/shared /app/apps/shared
 
 # Copy application code
-COPY . .
+COPY apps/sandbox/ .
 
-# Create necessary directories
-RUN mkdir -p /app/logs /app/tmp && \
-    chown -R sandbox:sandbox /app
+# Create logs directory
+RUN mkdir -p logs tmp
 
-# Switch to non-root user
-USER sandbox
+# Create non-root user
+RUN adduser --disabled-password --gecos '' appuser && \
+    chown -R appuser:appuser /app
+USER appuser
 
 # Expose port
 EXPOSE ${SANDBOX_PORT}
