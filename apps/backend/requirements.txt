@@ -82,3 +82,4 @@ opentelemetry-instrumentation-logging==0.55b1
 
 # Processor Pipeline
 git+https://github.com/TATOAO/processor_architecture.git@main
+git+https://github.com/TATOAO/compact_llm.git@v0.1.1#egg=compact-llm[client]

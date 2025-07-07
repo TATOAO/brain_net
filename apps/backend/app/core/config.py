@@ -105,6 +105,9 @@ class Settings(BaseSettings):
     OTEL_SERVICE_VERSION: str = Field(default="1.0.0", env="OTEL_SERVICE_VERSION")
     OTEL_RESOURCE_ATTRIBUTES: str = Field(default="", env="OTEL_RESOURCE_ATTRIBUTES")
     OTEL_INSECURE: bool = Field(default=True, env="OTEL_INSECURE")
+
+    # Compact LLM Settings
+    COMPACT_LLM_URL: str = "http://localhost:8000"
     
     # Health Check Settings
     HEALTH_CHECK_INTERVAL: str = "30s"
