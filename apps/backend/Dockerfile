@@ -23,13 +23,20 @@ RUN if [ -n "$APT_MIRROR" ]; then \
         fi; \
     fi
 
-# Install system dependencies
+# Install system dependencies including git
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     libpq-dev \
     curl \
+    git \
     && rm -rf /var/lib/apt/lists/*
+
+# Configure git settings
+RUN git config --global http.postBuffer 524288000 && \
+    git config --global http.version HTTP/1.1 && \
+    git config --global http.lowSpeedLimit 0 && \
+    git config --global http.lowSpeedTime 999999
 
 # Install uv for faster package installation
 RUN if [ -n "$PYPI_INDEX_URL" ]; then \
@@ -42,26 +49,13 @@ RUN if [ -n "$PYPI_INDEX_URL" ]; then \
         pip install uv; \
     fi
 
-# Copy requirements first for better caching
-COPY apps/backend/requirements.txt .
-
 # Set default PyPI index URL - can be overridden with build args
 ARG PYPI_INDEX_URL=""
 ARG PYPI_TRUSTED_HOST=""
 ARG GITHUB_TOKEN=""
 
-RUN apt-get update && apt-get install -y git
-
-RUN git config --global http.postBuffer 524288000 && \
-    git config --global http.version HTTP/1.1 && \
-    git config --global http.lowSpeedLimit 0 && \
-    git config --global http.lowSpeedTime 999999
-
-# Configure git credentials if GitHub token is provided
-RUN if [ -n "$GITHUB_TOKEN" ]; then \
-        git config --global credential.helper store && \
-        echo "https://$GITHUB_TOKEN@github.com" > ~/.git-credentials; \
-    fi
+# Copy requirements first for better caching
+COPY apps/backend/requirements.txt .
 
 # Install Python dependencies using uv (much faster than pip)
 # Only add -i flag if PYPI_INDEX_URL is provided
@@ -90,7 +84,7 @@ RUN adduser --disabled-password --gecos '' appuser && \
     chown -R appuser:appuser /app
 USER appuser
 
-# Expose port
+# Expose port (internal container port is always 8000)
 EXPOSE 8000
 
 # Health check
