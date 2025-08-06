@@ -35,7 +35,7 @@ anthropic==0.7.8
 # sentence-transformers==2.2.2
 # transformers==4.36.2
 # torch==2.1.2
-numpy==1.24.4
+# numpy>=1.26.0
 
 # Document Processing
 pypdf2==3.0.1

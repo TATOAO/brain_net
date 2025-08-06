@@ -51,46 +51,46 @@ services:
     restart: unless-stopped
 
   # LLM Service
-  llm:
-    build:
-      context: ../
-      dockerfile: apps/llm/Dockerfile
-      args:
-        PYPI_INDEX_URL: ${PYPI_INDEX_URL:-https://pypi.org/simple}
-        PYPI_TRUSTED_HOST: ${PYPI_TRUSTED_HOST:-}
-        APT_MIRROR: ${APT_MIRROR:-}
-        APT_SECURITY_MIRROR: ${APT_SECURITY_MIRROR:-}
-    container_name: brain_net_llm
-    ports:
-      - "${LLM_PORT:-8001}:8001"
-    environment:
-      # API Configuration
-      - COMPACT_LLM_HOST=0.0.0.0
-      - COMPACT_LLM_PORT=8001
+  # llm:
+  #   build:
+  #     context: ../
+  #     dockerfile: apps/llm/Dockerfile
+  #     args:
+  #       PYPI_INDEX_URL: ${PYPI_INDEX_URL:-https://pypi.org/simple}
+  #       PYPI_TRUSTED_HOST: ${PYPI_TRUSTED_HOST:-}
+  #       APT_MIRROR: ${APT_MIRROR:-}
+  #       APT_SECURITY_MIRROR: ${APT_SECURITY_MIRROR:-}
+  #   container_name: brain_net_llm
+  #   ports:
+  #     - "${LLM_PORT:-8001}:8001"
+  #   environment:
+  #     # API Configuration
+  #     - COMPACT_LLM_HOST=0.0.0.0
+  #     - COMPACT_LLM_PORT=8001
       
-      # MinIO Configuration
-      - MINIO_ENDPOINT=minio:9000
-      - MINIO_ACCESS_KEY=minioadmin
-      - MINIO_SECRET_KEY=minioadmin123
-      - MINIO_BUCKET_NAME=compact-llm-documents
-      - MINIO_SECURE=false
+  #     # MinIO Configuration
+  #     - MINIO_ENDPOINT=minio:9000
+  #     - MINIO_ACCESS_KEY=minioadmin
+  #     - MINIO_SECRET_KEY=minioadmin123
+  #     - MINIO_BUCKET_NAME=compact-llm-documents
+  #     - MINIO_SECURE=false
       
-      # Doc Chunking Configuration
-      - DOC_CHUNKING_LLM_API_KEY=${DOC_CHUNKING_LLM_API_KEY}
-      - DOC_CHUNKING_LLM_BASE_URL=${DOC_CHUNKING_LLM_BASE_URL}
-      - DOC_CHUNKING_LLM_MODEL=${DOC_CHUNKING_LLM_MODEL:-qwen3-4b}
+  #     # Doc Chunking Configuration
+  #     - DOC_CHUNKING_LLM_API_KEY=${DOC_CHUNKING_LLM_API_KEY}
+  #     - DOC_CHUNKING_LLM_BASE_URL=${DOC_CHUNKING_LLM_BASE_URL}
+  #     - DOC_CHUNKING_LLM_MODEL=${DOC_CHUNKING_LLM_MODEL:-qwen3-4b}
 
-      # Logging Configuration
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+  #     # Logging Configuration
+  #     - LOG_LEVEL=${LOG_LEVEL:-INFO}
 
-    depends_on:
-      - minio
-    volumes:
-      - ../apps/llm:/app
-      - ../apps/shared:/app/apps/shared
-    networks:
-      - brain_net_network
-    restart: unless-stopped
+  #   depends_on:
+  #     - minio
+  #   volumes:
+  #     - ../apps/llm:/app
+  #     - ../apps/shared:/app/apps/shared
+  #   networks:
+  #     - brain_net_network
+  #   restart: unless-stopped
 
   # Code Sandbox Service
   sandbox:
@@ -156,7 +156,7 @@ services:
       - INTERNAL_API_URL=${INTERNAL_API_URL:-http://backend:8000}
     depends_on:
       - backend
-      - llm
+      # - llm
     volumes:
       - ../apps/frontend:/app
       - /app/node_modules

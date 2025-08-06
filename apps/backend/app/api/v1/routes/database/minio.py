@@ -14,15 +14,6 @@ from app.schemas.database import (
 router = APIRouter(prefix="/minio", tags=["minio"])
 
 
-# Dependency to get database API service
-async def get_database_api_service(
-    db_manager: DatabaseManager = Depends(),
-    permission_manager: PermissionManager = Depends()
-) -> DatabaseAPIService:
-    """Get database API service instance."""
-    return DatabaseAPIService(db_manager, permission_manager)
-
-
 # Dependency to get database manager
 async def get_database_manager() -> DatabaseManager:
     """Get database manager from app state."""
@@ -38,6 +29,15 @@ async def get_permission_manager(
 ) -> PermissionManager:
     """Get permission manager instance."""
     return PermissionManager(db_manager)
+
+
+# Dependency to get database API service
+async def get_database_api_service(
+    db_manager: DatabaseManager = Depends(get_database_manager),
+    permission_manager: PermissionManager = Depends(get_permission_manager)
+) -> DatabaseAPIService:
+    """Get database API service instance."""
+    return DatabaseAPIService(db_manager, permission_manager)
 
 
 @router.post("/operation", response_model=MinIOOperationResponse)

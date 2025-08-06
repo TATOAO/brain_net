@@ -15,6 +15,13 @@ from app.services.permissions import PermissionManager
 from apps.shared.models import User
 
 
+async def get_database_manager() -> DatabaseManager:
+    """Get database manager from app state."""
+    # This would typically be injected from app state
+    # For now, create a new instance
+    return DatabaseManager()
+
+
 class SandboxAuthService(LoggerMixin):
     """Manages authentication and authorization for sandbox containers."""
     
@@ -225,9 +232,26 @@ class SandboxAuthMiddleware:
 security = HTTPBearer()
 
 
+async def get_permission_manager(
+    db_manager: DatabaseManager = Depends(get_database_manager)
+) -> PermissionManager:
+    """Dependency to get permission manager."""
+    
+    return PermissionManager(db_manager)
+
+
+async def get_sandbox_auth_service(
+    db_manager: DatabaseManager = Depends(get_database_manager),
+    permission_manager: PermissionManager = Depends(get_permission_manager)
+) -> SandboxAuthService:
+    """Dependency to get sandbox auth service."""
+    
+    return SandboxAuthService(db_manager, permission_manager)
+
+
 async def get_current_sandbox_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    sandbox_auth_service: SandboxAuthService = Depends()
+    sandbox_auth_service: SandboxAuthService = Depends(get_sandbox_auth_service)
 ) -> Dict:
     """Dependency to get current user from sandbox token."""
     
@@ -242,21 +266,7 @@ async def get_current_sandbox_user(
     }
 
 
-async def get_sandbox_auth_service(
-    db_manager: DatabaseManager = Depends(),
-    permission_manager: PermissionManager = Depends()
-) -> SandboxAuthService:
-    """Dependency to get sandbox auth service."""
-    
-    return SandboxAuthService(db_manager, permission_manager)
 
-
-async def get_permission_manager(
-    db_manager: DatabaseManager = Depends()
-) -> PermissionManager:
-    """Dependency to get permission manager."""
-    
-    return PermissionManager(db_manager)
 
 
 class ExecutionTokenManager:
