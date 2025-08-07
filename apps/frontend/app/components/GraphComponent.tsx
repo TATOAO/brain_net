@@ -88,7 +88,14 @@ const ProcessorNode = ({ data, id }: { data: any; id: string }) => {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(data.processor_class_name);
+  const [showTypeSelector, setShowTypeSelector] = useState(false);
   const nodeRef = useRef<HTMLDivElement>(null);
+
+  // Available processor types
+  const processorTypes = [
+    { name: 'ChunkerProcessor', uniqueName: 'chunker_processor_1' },
+    { name: 'HasherProcessor', uniqueName: 'hasher_processor_1' },
+  ];
 
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -123,6 +130,12 @@ const ProcessorNode = ({ data, id }: { data: any; id: string }) => {
     setContextMenu(null);
   };
 
+  const handleChangeProcessorType = (processorType: { name: string; uniqueName: string }) => {
+    data.processor_class_name = processorType.name;
+    data.processor_unique_name = processorType.uniqueName;
+    setShowTypeSelector(false);
+  };
+
   return (
     <>
       <NodeToolbar
@@ -145,6 +158,38 @@ const ProcessorNode = ({ data, id }: { data: any; id: string }) => {
           >
             Delete
           </button>
+        </div>
+      </NodeToolbar>
+
+      <NodeToolbar
+        isVisible={data.forceToolbarVisible || undefined}
+        position={Position.Top}
+        className="bg-white border border-gray-300 rounded-lg shadow-lg p-1"
+      >
+        <div className="relative">
+          <button
+            onClick={() => setShowTypeSelector(!showTypeSelector)}
+            className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm font-medium"
+            title="Change processor type"
+          >
+            Type
+          </button>
+          {showTypeSelector && (
+            <div className="absolute top-full left-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg py-1 min-w-[200px] z-10">
+              {processorTypes.map((type) => (
+                <button
+                  key={type.name}
+                  onClick={() => handleChangeProcessorType(type)}
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${
+                    data.processor_class_name === type.name ? 'bg-blue-50 text-blue-600' : ''
+                  }`}
+                >
+                  <div className="font-medium">{type.name}</div>
+                  <div className="text-xs text-gray-500">({type.uniqueName})</div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </NodeToolbar>
       
@@ -220,6 +265,14 @@ const ProcessorNode = ({ data, id }: { data: any; id: string }) => {
         <div
           className="fixed inset-0 z-40"
           onClick={handleCloseContextMenu}
+        />
+      )}
+
+      {/* Overlay to close type selector when clicking outside */}
+      {showTypeSelector && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowTypeSelector(false)}
         />
       )}
     </>
