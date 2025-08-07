@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/app/contexts/AuthContext'
-import { LogOut, User, Upload, FileText, Home } from 'lucide-react'
+import { LogOut, User, Upload, FileText, Home, Network } from 'lucide-react'
 
 export default function Header() {
   const { user, logout, isLoggedIn } = useAuth()
@@ -51,6 +51,13 @@ export default function Header() {
               >
                 <FileText className="w-4 h-4" />
                 <span>My Files</span>
+              </Link>
+              <Link
+                href="/graph"
+                className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                <Network className="w-4 h-4" />
+                <span>Graph Editor</span>
               </Link>
             </nav>
           )}
