@@ -46,6 +46,38 @@ const API_BASE_URL = process.env.NODE_ENV === 'development'
 const TOKEN_KEY = 'brain_net_access_token'
 const REFRESH_TOKEN_KEY = 'brain_net_refresh_token'
 
+// Token management functions (define these before interceptors)
+export const setTokens = (tokens: AuthTokens): void => {
+  Cookies.set(TOKEN_KEY, tokens.access_token, { 
+    expires: tokens.expires_in / (24 * 60 * 60), // Convert seconds to days
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax'
+  })
+  
+  Cookies.set(REFRESH_TOKEN_KEY, tokens.refresh_token, { 
+    expires: 7, // 7 days
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax'
+  })
+}
+
+export const getAccessToken = (): string | undefined => {
+  return Cookies.get(TOKEN_KEY)
+}
+
+export const getRefreshToken = (): string | undefined => {
+  return Cookies.get(REFRESH_TOKEN_KEY)
+}
+
+export const clearTokens = (): void => {
+  Cookies.remove(TOKEN_KEY)
+  Cookies.remove(REFRESH_TOKEN_KEY)
+}
+
+export const isAuthenticated = (): boolean => {
+  return !!getAccessToken()
+}
+
 // Configure axios interceptors
 axios.interceptors.request.use(
   (config) => {
@@ -85,7 +117,9 @@ axios.interceptors.response.use(
       } catch (refreshError) {
         // Refresh failed, redirect to login
         clearTokens()
-        window.location.href = '/login'
+        if (typeof window !== 'undefined') {
+          window.location.href = '/login'
+        }
         return Promise.reject(refreshError)
       }
     }
@@ -94,37 +128,7 @@ axios.interceptors.response.use(
   }
 )
 
-// Token management
-export const setTokens = (tokens: AuthTokens): void => {
-  Cookies.set(TOKEN_KEY, tokens.access_token, { 
-    expires: tokens.expires_in / (24 * 60 * 60), // Convert seconds to days
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax'
-  })
-  
-  Cookies.set(REFRESH_TOKEN_KEY, tokens.refresh_token, { 
-    expires: 7, // 7 days
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax'
-  })
-}
 
-export const getAccessToken = (): string | undefined => {
-  return Cookies.get(TOKEN_KEY)
-}
-
-export const getRefreshToken = (): string | undefined => {
-  return Cookies.get(REFRESH_TOKEN_KEY)
-}
-
-export const clearTokens = (): void => {
-  Cookies.remove(TOKEN_KEY)
-  Cookies.remove(REFRESH_TOKEN_KEY)
-}
-
-export const isAuthenticated = (): boolean => {
-  return !!getAccessToken()
-}
 
 // API functions
 export const authApi = {

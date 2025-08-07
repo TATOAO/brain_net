@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import {
   ReactFlow,
   Node,
@@ -19,21 +19,25 @@ import {
   getBezierPath,
   Position,
   Handle,
+  NodeToolbar,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
-// Custom edge component with arrow
-const CustomEdge = ({
-  id,
-  sourceX,
-  sourceY,
-  targetX,
-  targetY,
-  sourcePosition,
-  targetPosition,
-  style = {},
-  markerEnd,
-}: any) => {
+// Animated edge component with flow animation
+const AnimatedEdge = (props: any) => {
+  const {
+    id,
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition,
+    targetPosition,
+    style = {},
+    markerEnd,
+    data,
+  } = props;
+  const isAnimating = data?.isAnimating;
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
@@ -45,13 +49,36 @@ const CustomEdge = ({
 
   return (
     <>
-      <path
-        id={id}
-        style={style}
-        className="react-flow__edge-path"
-        d={edgePath}
-        markerEnd={markerEnd}
-      />
+      {/* Main edge path - hidden when animating */}
+      {!isAnimating && (
+        <path
+          id={id}
+          style={{
+            ...style,
+            strokeDasharray: '5,5', // Make edges dashed by default
+          }}
+          className="react-flow__edge-path"
+          d={edgePath}
+          markerEnd={markerEnd}
+        />
+      )}
+      
+      {/* Animated flow overlay - shows arrow when animating */}
+      {isAnimating && (
+        <path
+          id={`${id}-flow`}
+          style={{
+            stroke: '#3b82f6',
+            strokeWidth: 3,
+            fill: 'none',
+            strokeDasharray: '10,5',
+            animation: 'flowAnimation 1s linear infinite',
+          }}
+          className="react-flow__edge-path"
+          d={edgePath}
+          markerEnd={markerEnd}
+        />
+      )}
     </>
   );
 };
@@ -98,6 +125,29 @@ const ProcessorNode = ({ data, id }: { data: any; id: string }) => {
 
   return (
     <>
+      <NodeToolbar
+        isVisible={data.forceToolbarVisible || undefined}
+        position={Position.Right}
+        className="bg-white border border-gray-300 rounded-lg shadow-lg p-1"
+      >
+        <div className="flex gap-1">
+          <button
+            onClick={handleAddConnectedNode}
+            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm font-medium"
+            title="Add connected node"
+          >
+            Add
+          </button>
+          <button
+            onClick={handleDelete}
+            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm font-medium"
+            title="Delete node"
+          >
+            Delete
+          </button>
+        </div>
+      </NodeToolbar>
+      
       <Handle
         type="target"
         position={Position.Left}
@@ -180,9 +230,9 @@ const nodeTypes: NodeTypes = {
   processor: ProcessorNode,
 };
 
-// Use CustomEdge for all edges
+// Use AnimatedEdge for all edges
 const edgeTypes = {
-  default: CustomEdge,
+  default: AnimatedEdge,
 };
 
 interface GraphData {
@@ -206,6 +256,7 @@ interface GraphComponentProps {
 function GraphComponentInner({ graphData, onGraphChange }: GraphComponentProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const deleteNode = useCallback((nodeId: string) => {
     setNodes((nds) => nds.filter((node) => node.id !== nodeId));
@@ -375,6 +426,14 @@ function GraphComponentInner({ graphData, onGraphChange }: GraphComponentProps) 
     setEdges((eds) => eds.filter((edge) => !edge.selected));
   }, [setNodes, setEdges]);
 
+  const startAnimation = useCallback(() => {
+    setIsAnimating(true);
+  }, []);
+
+  const stopAnimation = useCallback(() => {
+    setIsAnimating(false);
+  }, []);
+
   return (
     <div className="w-full h-[600px] border border-gray-300 rounded-lg">
       <div className="p-2 bg-gray-100 text-xs">
@@ -382,13 +441,18 @@ function GraphComponentInner({ graphData, onGraphChange }: GraphComponentProps) 
       </div>
       <ReactFlow
         nodes={nodes}
-        edges={edges}
+        edges={edges.map(edge => ({
+          ...edge,
+          data: { isAnimating }
+        }))}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView
+        fitViewOptions={{ padding: 0.2, minZoom: 0.5, maxZoom: 1.5 }}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.8 }}
         attributionPosition="bottom-left"
         defaultEdgeOptions={{
           type: 'default',
@@ -411,6 +475,21 @@ function GraphComponentInner({ graphData, onGraphChange }: GraphComponentProps) 
             </marker>
           </defs>
         </svg>
+        
+        {/* CSS for flow animation */}
+        <style>
+          {`
+            @keyframes flowAnimation {
+              0% {
+                stroke-dashoffset: 15;
+              }
+              100% {
+                stroke-dashoffset: 0;
+              }
+            }
+          `}
+        </style>
+        
         <Controls />
         <Background />
         <MiniMap />
@@ -427,6 +506,28 @@ function GraphComponentInner({ graphData, onGraphChange }: GraphComponentProps) 
               className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
             >
               Delete Selected
+            </button>
+            <button
+              onClick={startAnimation}
+              disabled={isAnimating}
+              className={`px-3 py-1 text-white rounded text-sm ${
+                isAnimating 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-green-500 hover:bg-green-600'
+              }`}
+            >
+              Run Pipeline
+            </button>
+            <button
+              onClick={stopAnimation}
+              disabled={!isAnimating}
+              className={`px-3 py-1 text-white rounded text-sm ${
+                !isAnimating 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-orange-500 hover:bg-orange-600'
+              }`}
+            >
+              Stop
             </button>
           </div>
         </Panel>
