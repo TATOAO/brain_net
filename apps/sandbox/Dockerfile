@@ -6,6 +6,15 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 
+# Sandbox configuration
+ENV SANDBOX_HOST=0.0.0.0
+ENV SANDBOX_PORT=8002
+ENV BACKEND_URL=http://backend:8000
+ENV EXECUTION_TIMEOUT=60
+ENV MAX_CONCURRENT_EXECUTIONS=10
+ENV DEBUG_MODE=true
+ENV LOG_LEVEL=INFO
+
 # Set work directory
 WORKDIR /app
 
@@ -23,20 +32,13 @@ RUN if [ -n "$APT_MIRROR" ]; then \
         fi; \
     fi
 
-# Install system dependencies including git
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     libpq-dev \
     curl \
-    git \
     && rm -rf /var/lib/apt/lists/*
-
-# Configure git settings
-RUN git config --global http.postBuffer 524288000 && \
-    git config --global http.version HTTP/1.1 && \
-    git config --global http.lowSpeedLimit 0 && \
-    git config --global http.lowSpeedTime 999999
 
 # Install uv for faster package installation
 RUN if [ -n "$PYPI_INDEX_URL" ]; then \
@@ -49,13 +51,26 @@ RUN if [ -n "$PYPI_INDEX_URL" ]; then \
         pip install uv; \
     fi
 
+# Copy requirements first for better caching
+COPY apps/sandbox/requirements.txt .
+
 # Set default PyPI index URL - can be overridden with build args
 ARG PYPI_INDEX_URL=""
 ARG PYPI_TRUSTED_HOST=""
 ARG GITHUB_TOKEN=""
 
-# Copy requirements first for better caching
-COPY apps/backend/requirements.txt .
+RUN apt-get update && apt-get install -y git
+
+RUN git config --global http.postBuffer 524288000 && \
+    git config --global http.version HTTP/1.1 && \
+    git config --global http.lowSpeedLimit 0 && \
+    git config --global http.lowSpeedTime 999999
+
+# Configure git credentials if GitHub token is provided
+RUN if [ -n "$GITHUB_TOKEN" ]; then \
+        git config --global credential.helper store && \
+        echo "https://$GITHUB_TOKEN@github.com" > ~/.git-credentials; \
+    fi
 
 # Install Python dependencies using uv (much faster than pip)
 # Only add -i flag if PYPI_INDEX_URL is provided
@@ -74,22 +89,22 @@ COPY apps/__init__.py /app/apps/__init__.py
 COPY apps/shared /app/apps/shared
 
 # Copy application code
-COPY apps/backend/ .
+COPY apps/sandbox/ .
 
 # Create logs directory
-RUN mkdir -p logs
+RUN mkdir -p logs tmp
 
 # Create non-root user
 RUN adduser --disabled-password --gecos '' appuser && \
     chown -R appuser:appuser /app
 USER appuser
 
-# Expose port (internal container port is always 8000)
-EXPOSE 8000
+# Expose port (internal container port is always 8002)
+EXPOSE 8002
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8002/health || exit 1
 
-# Run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"] 
+# Command to run the application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8002", "--reload"] 
