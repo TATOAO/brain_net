@@ -1,7 +1,7 @@
 import React from 'react'
 import './globals.css'
 import type { Metadata } from 'next'
-import { AuthProvider } from '@/app/contexts/AuthContext'
+import { AuthProvider } from './contexts/AuthContext'
 
 export const metadata: Metadata = {
   title: 'Brain Net - Intelligent Knowledge Management',
@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-50 min-h-screen">
+      <body className="bg-gray-50 min-h-screen" suppressHydrationWarning>
         <AuthProvider>
           {children}
         </AuthProvider>

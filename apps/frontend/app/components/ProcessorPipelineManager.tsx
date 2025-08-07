@@ -556,7 +556,7 @@ const ProcessorPipelineManager: React.FC = () => {
                   <p className="text-sm text-blue-800">
                     <strong>Hint for after_process integration:</strong> The AsyncProcessor.after_process callback 
                     will automatically save processed data to appropriate storage systems (MinIO for files, 
-                    vector databases for embeddings, graph databases for entities). Configure your processor's 
+                    vector databases for embeddings, graph databases for entities). Configure your processor&apos;s 
                     metadata to optimize storage routing.
                   </p>
                 </div>
